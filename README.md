@@ -36,3 +36,5 @@ whatsapp = WhatsApp(10)
 result = whatsapp.participants_for_group("group")
 ```
 
+**Note:** Ir just automated the whatsapp, Nothing More, Nothing Less. This program is Licensed under Apache 2.0. 
+
