@@ -9,6 +9,7 @@ from whatsapp import WhatsApp
 whatsapp = WhatsApp(10)
 print(whatsapp.send_message("Name",":heart: Good!"))  
 ```
+**Result:**
 ![Image](https://raw.githubusercontent.com/VISWESWARAN1998/Simple-Yet-Hackable-WhatsApp-api/master/Screenshot%20(747).png)
 
 **Getting the status message of a person:**
