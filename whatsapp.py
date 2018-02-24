@@ -16,6 +16,9 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import TimeoutException
+import pyautogui
+
+pyautogui.PAUSE = 1
        
 
 class WhatsApp:
@@ -33,7 +36,7 @@ class WhatsApp:
         with open("emoji.json") as emojies:
             self.emoji = json.load(emojies)  # This will load the emojies present in the json file into the dict
         WebDriverWait(self.browser,wait).until(EC.presence_of_element_located(
-            (By.CLASS_NAME, "input-search")))
+            (By.ID, "input-chatlist-search")))
         if screenshot is not None:
             self.browser.save_screenshot(screenshot)  # This will save the screenshot to the specified file location
         
@@ -41,12 +44,12 @@ class WhatsApp:
     # will return true if the message has been sent, false else
     def send_message(self, name, message):
         message = self.emojify(message)  # this will emojify all the emoji which is present as the text in string
-        search = self.browser.find_element_by_class_name("input-search")
+        search = self.browser.find_element_by_id("input-chatlist-search")
         search.send_keys(name+Keys.ENTER)  # we will send the name to the input key box
         current_time = time.time()
         try:
             send_msg = WebDriverWait(self.browser,self.timeout).until(EC.presence_of_element_located(
-                (By.CLASS_NAME, "input")))
+                (By.XPATH, "/html/body/div/div/div/div[3]/div/footer/div[1]/div[2]/div/div[2]")))
             send_msg.send_keys(message+Keys.ENTER)  # send the message
             return True
         except TimeoutException:
@@ -58,7 +61,7 @@ class WhatsApp:
                 
     # This method will count the no of participants for the group name provided
     def participants_for_group(self, group_name):
-        search = self.browser.find_element_by_class_name("input-search")
+        search = self.browser.find_element_by_id("input-chatlist-search")
         search.send_keys(group_name+Keys.ENTER)  # we will send the name to the input key box
         # some say this two try catch below can be grouped into one
         # but I have some version specific issues with chrome [Other element would receive a click]
@@ -66,7 +69,7 @@ class WhatsApp:
         # it is handled safely
         try:
             click_menu = WebDriverWait(self.browser,self.timeout).until(EC.presence_of_element_located(
-                (By.CSS_SELECTOR, "header.pane-header:nth-child(2) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > span:nth-child(1)")))
+                (By.XPATH, "/html/body/div/div/div/div[3]/div/header/div[2]/div[1]/div/span")))
             click_menu.click()
         except TimeoutException:
             raise TimeoutError("Your request has been timed out! Try overriding timeout!")
@@ -75,11 +78,11 @@ class WhatsApp:
         except Exception as e:
             return "None"
         current_time = dt.datetime.now()
-        participants_css_selector = "div.animate-enter2:nth-child(4) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2)"
+        participants_xpath = "/html/body/div/div/div/div[1]/div[3]/span/div/span/div/div/div/div[4]/div[1]/div/div/div/span"
         while True:
             try:
-                participants_count = self.browser.find_element_by_css_selector(participants_css_selector).text
-                if "256" in participants_count:
+                participants_count = self.browser.find_element_by_xpath(participants_xpath).text
+                if "participants" in participants_count:
                     return participants_count
             except Exception as e:
                 pass
@@ -95,7 +98,7 @@ class WhatsApp:
     # get the status message of a person 
     # TimeOut is approximately set to 10 seconds
     def get_status(self, name):
-        search = self.browser.find_element_by_class_name("input-search")
+        search = self.browser.find_element_by_id("input-chatlist-search")
         search.send_keys(name+Keys.ENTER)  # we will send the name to the input key box
         try:
             group_xpath = "/html/body/div/div/div/div[3]/header/div[1]/div/span/img"
@@ -129,7 +132,7 @@ class WhatsApp:
     
     # to get the last seen of the person
     def get_last_seen(self, name, timeout=10):
-        search = self.browser.find_element_by_class_name("input-search")
+        search = self.browser.find_element_by_id("input-chatlist-search")
         search.send_keys(name+Keys.ENTER)  # we will send the name to the input key box
         last_seen_css_selector = ".chat-subtitle-text"
         start_time = dt.datetime.now()
@@ -156,13 +159,35 @@ class WhatsApp:
     def send_blind_message(self, message):
         try:
             message = self.emojify(message)
-            send_msg = self.browser.find_element_by_class_name("input")
+            send_msg = self.browser.find_element_by_xpath("/html/body/div/div/div/div[3]/div/footer/div[1]/div[2]/div/div[2]")
             send_msg.send_keys(message+Keys.ENTER)  # send the message
             return True
-        except selenium.common.exceptions.NoSuchElementException:
+        except NoSuchElementException:
             return "Unable to Locate the element"
         except Exception as e:
-            return False    
+            return False
+
+    # This method will send you the picture
+    # This is a windows specific function, somebody PR for Mac and Linux
+    def send_picture(self, name, picture_location, caption=None):
+        search = self.browser.find_element_by_id("input-chatlist-search")
+        search.send_keys(name+Keys.ENTER)  # we will send the name to the input key box
+        try:
+            self.browser.find_element_by_xpath("/html/body/div/div/div/div[3]/div/header/div[3]/div/div[2]/div/span").click()
+        except NoSuchElementException:
+            return "Unable to Locate the element"
+        pyautogui.press("down")
+        pyautogui.press("enter")
+        pyautogui.typewrite(picture_location)
+        pyautogui.press("enter")
+        try:
+            if caption is not None:
+                message = self.browser.find_element_by_xpath("/html/body/div/div/div/div[1]/div[2]/span/div/span/div/div/div[2]/div/span/div/div[2]/div/div[3]/div[1]/div[2]")
+                message.send_keys(caption)
+            self.browser.find_element_by_xpath("/html/body/div/div/div/div[1]/div[2]/span/div/span/div/div/div[2]/span[2]/div/div/span").click()
+        except NoSuchElementException:
+            return "Cannot Send the picture"
+        
      
     # override the timeout
     def override_timeout(self, new_timeout):
