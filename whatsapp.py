@@ -134,7 +134,7 @@ class WhatsApp:
     def get_last_seen(self, name, timeout=10):
         search = self.browser.find_element_by_id("input-chatlist-search")
         search.send_keys(name+Keys.ENTER)  # we will send the name to the input key box
-        last_seen_css_selector = ".chat-subtitle-text"
+        last_seen_css_selector = ".O90ur"
         start_time = dt.datetime.now()
         try:
             WebDriverWait(self.browser,self.timeout).until(EC.presence_of_element_located(
