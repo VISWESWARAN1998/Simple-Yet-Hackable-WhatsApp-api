@@ -9,6 +9,10 @@
 import time
 import datetime as dt
 import json
+import os
+import requests
+import shutil
+from PIL import Image
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -198,7 +202,31 @@ class WhatsApp:
         for emoji in self.emoji:
             message = message.replace(emoji,self.emoji[emoji])
         return message
-    
+
+    def get_profile_pic(self, name):
+        search = self.browser.find_element_by_id("input-chatlist-search")
+        search.send_keys(name+Keys.ENTER)
+        try:
+            open_profile = WebDriverWait(self.browser,self.timeout).until(EC.presence_of_element_located(
+                (By.XPATH, "/html/body/div[1]/div/div/div[3]/div/header/div[1]/div/img")))
+            open_profile.click()
+        except:
+            print("nothing found")
+        try:
+            open_pic =  WebDriverWait(self.browser,self.timeout).until(EC.presence_of_element_located(
+                (By.XPATH, "/html/body/div[1]/div/div/div[1]/div[3]/span/div/span/div/div/div/div[1]/div[1]/div/img")))
+            open_pic.click()
+        except:
+            print("Nothing found")
+        try:
+            img = WebDriverWait(self.browser,self.timeout).until(EC.presence_of_element_located(
+                    (By.XPATH,'//*[@id="app"]/div/span[2]/div/div/div[2]/div/div/div/div/img')))
+        except:
+            print("Couldn't find the URL to the image")
+        img_src_url = img.get_attribute('src')
+        self.browser.get(img_src_url)
+        self.browser.save_screenshot(name+"_img.png")
+
     # This method is used to quit the browser
     def quit(self):
         self.browser.quit()
