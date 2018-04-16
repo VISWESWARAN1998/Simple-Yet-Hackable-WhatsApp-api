@@ -30,7 +30,7 @@ class WhatsApp:
     This class is used to interact with your whatsapp [UNOFFICIAL API]
     """
     emoji = {}  # This dict will contain all emojies needed for chatting
-    browser = webdriver.Chrome("/home/gccallie/Downloads/chromedriver")  # we are using chrome as our webbrowser
+    browser = webdriver.Chrome()  # we are using chrome as our webbrowser
     timeout = 10  # The timeout is set for about ten seconds
 
     # This constructor will load all the emojies present in the json file and it will initialize the webdriver
