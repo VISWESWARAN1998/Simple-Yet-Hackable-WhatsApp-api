@@ -23,7 +23,7 @@ from selenium.common.exceptions import TimeoutException
 import pyautogui
 
 pyautogui.PAUSE = 1
-       
+
 
 class WhatsApp:
     """
@@ -32,7 +32,7 @@ class WhatsApp:
     emoji = {}  # This dict will contain all emojies needed for chatting
     browser = webdriver.Chrome()  # we are using chrome as our webbrowser
     timeout = 10  # The timeout is set for about ten seconds
-    
+
     # This constructor will load all the emojies present in the json file and it will initialize the webdriver
     def __init__(self, wait, screenshot=None):
         self.browser.get("https://web.whatsapp.com/")
@@ -40,19 +40,19 @@ class WhatsApp:
         with open("emoji.json") as emojies:
             self.emoji = json.load(emojies)  # This will load the emojies present in the json file into the dict
         WebDriverWait(self.browser,wait).until(EC.presence_of_element_located(
-            (By.ID, "input-chatlist-search")))
+            (By.XPATH, '//*[@id="side"]/div[2]/div/label/input')))
         if screenshot is not None:
             self.browser.save_screenshot(screenshot)  # This will save the screenshot to the specified file location
-        
+
     # This method is used to send the message to the individual person or a group
     # will return true if the message has been sent, false else
     def send_message(self, name, message):
         message = self.emojify(message)  # this will emojify all the emoji which is present as the text in string
-        search = self.browser.find_element_by_id("input-chatlist-search")
+        search = self.browser.find_element_by_xpath('//*[@id="side"]/div[2]/div/label/input')
         search.send_keys(name+Keys.ENTER)  # we will send the name to the input key box
         current_time = time.time()
         try:
-            send_msg = WebDriverWait(self.browser,self.timeout).until(EC.presence_of_element_located(
+            send_msg = WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located(
                 (By.XPATH, "/html/body/div/div/div/div[3]/div/footer/div[1]/div[2]/div/div[2]")))
             send_msg.send_keys(message+Keys.ENTER)  # send the message
             return True
@@ -62,10 +62,10 @@ class WhatsApp:
             return False
         except Exception:
             return False
-                
+
     # This method will count the no of participants for the group name provided
     def participants_for_group(self, group_name):
-        search = self.browser.find_element_by_id("input-chatlist-search")
+        search = self.browser.find_element_by_xpath('//*[@id="side"]/div[2]/div/label/input')
         search.send_keys(group_name+Keys.ENTER)  # we will send the name to the input key box
         # some say this two try catch below can be grouped into one
         # but I have some version specific issues with chrome [Other element would receive a click]
@@ -93,16 +93,16 @@ class WhatsApp:
             new_time = dt.datetime.now()
             elapsed_time = (new_time - current_time).seconds
             if elapsed_time > self.timeout:
-                return "NONE"             
-            
+                return "NONE"
+
     # This method is used to get the main page
     def goto_main(self):
         self.browser.get("https://web.whatsapp.com/")
-    
-    # get the status message of a person 
+
+    # get the status message of a person
     # TimeOut is approximately set to 10 seconds
     def get_status(self, name):
-        search = self.browser.find_element_by_id("input-chatlist-search")
+        search = self.browser.find_element_by_xpath('//*[@id="side"]/div[2]/div/label/input')
         search.send_keys(name+Keys.ENTER)  # we will send the name to the input key box
         try:
             group_xpath = "/html/body/div/div/div/div[3]/header/div[1]/div/span/img"
@@ -132,11 +132,11 @@ class WhatsApp:
         except NoSuchElementException:
             return "None"
         except Exception:
-            return "None"        
-    
+            return "None"
+
     # to get the last seen of the person
     def get_last_seen(self, name, timeout=10):
-        search = self.browser.find_element_by_id("input-chatlist-search")
+        search = self.browser.find_element_by_xpath('//*[@id="side"]/div[2]/div/label/input')
         search.send_keys(name+Keys.ENTER)  # we will send the name to the input key box
         last_seen_css_selector = ".O90ur"
         start_time = dt.datetime.now()
@@ -157,7 +157,7 @@ class WhatsApp:
             return "None"
         except Exception:
             return "None"
-     
+
     # This method does not care about anything, it sends message to the currently active chat
     # you can use this method to recursively send the messages to the same person
     def send_blind_message(self, message):
@@ -174,7 +174,7 @@ class WhatsApp:
     # This method will send you the picture
     # This is a windows specific function, somebody PR for Mac and Linux
     def send_picture(self, name, picture_location, caption=None):
-        search = self.browser.find_element_by_id("input-chatlist-search")
+        search = self.browser.find_element_by_xpath('//*[@id="side"]/div[2]/div/label/input')
         search.send_keys(name+Keys.ENTER)  # we will send the name to the input key box
         try:
             self.browser.find_element_by_xpath("/html/body/div/div/div/div[3]/div/header/div[3]/div/div[2]/div/span").click()
@@ -191,12 +191,12 @@ class WhatsApp:
             self.browser.find_element_by_xpath("/html/body/div/div/div/div[1]/div[2]/span/div/span/div/div/div[2]/span[2]/div/div/span").click()
         except NoSuchElementException:
             return "Cannot Send the picture"
-        
-     
+
+
     # override the timeout
     def override_timeout(self, new_timeout):
         self.timeout = new_timeout
-    
+
     # This method is used to emojify all the text emoji's present in the message
     def emojify(self,message):
         for emoji in self.emoji:
@@ -204,7 +204,7 @@ class WhatsApp:
         return message
 
     def get_profile_pic(self, name):
-        search = self.browser.find_element_by_id("input-chatlist-search")
+        search = self.browser.find_element_by_xpath('//*[@id="side"]/div[2]/div/label/input')
         search.send_keys(name+Keys.ENTER)
         try:
             open_profile = WebDriverWait(self.browser,self.timeout).until(EC.presence_of_element_located(
@@ -230,10 +230,3 @@ class WhatsApp:
     # This method is used to quit the browser
     def quit(self):
         self.browser.quit()
-    
-        
-        
-    
-        
-
-
