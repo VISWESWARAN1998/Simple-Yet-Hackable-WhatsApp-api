@@ -19,6 +19,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import TimeoutException
 import pyautogui
 
@@ -226,6 +227,41 @@ class WhatsApp:
         img_src_url = img.get_attribute('src')
         self.browser.get(img_src_url)
         self.browser.save_screenshot(name+"_img.png")
+
+    def create_group(self, group_name, members):
+        more = self.browser.find_element_by_css_selector("#side > header > div._20NlL > div > span > div:nth-child(3) > div > span")
+        more.click()
+        chains = ActionChains(self.browser)
+        chains.send_keys(Keys.ARROW_DOWN+Keys.ENTER)
+        chains.perform()
+        for member in members:
+            contact_name = self.browser.find_element_by_css_selector("._16RnB")
+            contact_name.send_keys(member+Keys.ENTER)
+        time.sleep(3) # little delay to make the process robust
+        next_step = self.browser.find_element_by_css_selector("._3hV1n > span:nth-child(1)")
+        next_step.click()
+        group_text = self.browser.find_element_by_css_selector(".bsmJe > div:nth-child(2)")
+        group_text.send_keys(group_name+Keys.ENTER)
+
+    def get_invite_link_for_group(self, groupname):
+        search = self.browser.find_element_by_xpath('//*[@id="side"]/div[2]/div/label/input')
+        search.send_keys(groupname+Keys.ENTER)
+        self.browser.find_element_by_css_selector("._2zCDG > span:nth-child(1)").click()
+        try:
+            time.sleep(3)
+            WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located(
+                    (By.CSS_SELECTOR, "#app > div > div > div.MZIyP > div._3q4NP._2yeJ5 > span > div > span > div > div > div > div:nth-child(5) > div:nth-child(3) > div._3j7s9 > div > div")))
+            invite_link = self.browser.find_element_by_css_selector("#app > div > div > div.MZIyP > div._3q4NP._2yeJ5 > span > div > span > div > div > div > div:nth-child(5) > div:nth-child(3) > div._3j7s9 > div > div")
+            invite_link.click()
+            WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located(
+                    (By.ID, "group-invite-link-anchor")))
+            link = self.browser.find_element_by_id("group-invite-link-anchor")
+            return link.text
+        except:
+            print("Cannot get the link")
+
+    
+    
 
     # This method is used to quit the browser
     def quit(self):

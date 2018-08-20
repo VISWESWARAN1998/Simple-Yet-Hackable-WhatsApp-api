@@ -36,5 +36,22 @@ whatsapp = WhatsApp(10)
 result = whatsapp.participants_for_group("group")
 ```
 
+**creating a new group and getting invite link**
+
+```python
+# SWAMI KARUPPASWAMI THUNNAI
+
+from whatsapp import WhatsApp
+import time
+
+app = WhatsApp(100)
+parameter1: group name, parameter 2: group members
+app.create_group("group", ["Thamarai", "Jeeva"])
+time.sleep(10)
+print(app.get_invite_link_for_group("group"))
+```
+
+
+
 **Note:** Ir just automated the whatsapp, Nothing More, Nothing Less. This program is Licensed under Apache 2.0. 
 
