@@ -55,3 +55,8 @@ print(app.get_invite_link_for_group("group"))
 
 **Note:** Ir just automated the whatsapp, Nothing More, Nothing Less. This program is Licensed under Apache 2.0. 
 
+Thank you for so many stars on this project, you can support me in follwing ways,
+
+1. Paypal: visweswaran.nagasivam98@gmail.com
+2. 1 GitHub follower =  1 supporter for me to get recogonized.
+3. LinkedIn skill Endorsement: https://www.linkedin.com/in/visweswaran-nagasivam-975a8b167/
