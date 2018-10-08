@@ -243,6 +243,7 @@ class WhatsApp:
         group_text = self.browser.find_element_by_css_selector(".bsmJe > div:nth-child(2)")
         group_text.send_keys(group_name+Keys.ENTER)
 
+    # This method is used to get an invite link for a particular group
     def get_invite_link_for_group(self, groupname):
         search = self.browser.find_element_by_xpath('//*[@id="side"]/div[2]/div/label/input')
         search.send_keys(groupname+Keys.ENTER)
@@ -260,8 +261,19 @@ class WhatsApp:
         except:
             print("Cannot get the link")
 
-    
-    
+    # This method is used to exit a group
+    def exit_group(self, group_name):
+        search = self.browser.find_element_by_xpath('//*[@id="side"]/div[2]/div/label/input')
+        search.send_keys(group_name+Keys.ENTER)
+        self.browser.find_element_by_css_selector("._2zCDG > span:nth-child(1)").click()
+        WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located((By.CSS_SELECTOR, "div._1CRb5:nth-child(6) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > span:nth-child(1)")))
+        time.sleep(3)
+        _exit = self.browser.find_element_by_css_selector("div._1CRb5:nth-child(6) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > span:nth-child(1)")
+        _exit.click()
+        WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located((By.CSS_SELECTOR, "div._1WZqU:nth-child(2)")))
+        confirm_exit = self.browser.find_element_by_css_selector("div._1WZqU:nth-child(2)")
+        confirm_exit.click()
+        
 
     # This method is used to quit the browser
     def quit(self):

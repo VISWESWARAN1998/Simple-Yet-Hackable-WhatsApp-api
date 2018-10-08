@@ -51,6 +51,17 @@ time.sleep(10)
 print(app.get_invite_link_for_group("group"))
 ```
 
+**Exiting the group**
+```python
+# SWAMI KARUPPASWAMI THUNNAI
+
+from whatsapp import WhatsApp
+
+app = WhatsApp(100)
+app.exit_group("X-Test")
+
+```
+
 
 
 **Note:** Ir just automated the whatsapp, Nothing More, Nothing Less. This program is Licensed under Apache 2.0. 
