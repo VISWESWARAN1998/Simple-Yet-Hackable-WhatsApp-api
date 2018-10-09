@@ -21,9 +21,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import TimeoutException
-import pyautogui
+#import pyautogui
 
-pyautogui.PAUSE = 1
+#pyautogui.PAUSE = 1
 
 
 class WhatsApp:
@@ -41,7 +41,7 @@ class WhatsApp:
         with open("emoji.json") as emojies:
             self.emoji = json.load(emojies)  # This will load the emojies present in the json file into the dict
         WebDriverWait(self.browser,wait).until(EC.presence_of_element_located(
-            (By.XPATH, '//*[@id="side"]/div[2]/div/label/input')))
+            (By.CSS_SELECTOR, '.jN-F5')))
         if screenshot is not None:
             self.browser.save_screenshot(screenshot)  # This will save the screenshot to the specified file location
 
@@ -49,7 +49,7 @@ class WhatsApp:
     # will return true if the message has been sent, false else
     def send_message(self, name, message):
         message = self.emojify(message)  # this will emojify all the emoji which is present as the text in string
-        search = self.browser.find_element_by_xpath('//*[@id="side"]/div[2]/div/label/input')
+        search = self.browser.find_element_by_css_selector(".jN-F5")
         search.send_keys(name+Keys.ENTER)  # we will send the name to the input key box
         current_time = time.time()
         try:
@@ -66,7 +66,7 @@ class WhatsApp:
 
     # This method will count the no of participants for the group name provided
     def participants_for_group(self, group_name):
-        search = self.browser.find_element_by_xpath('//*[@id="side"]/div[2]/div/label/input')
+        search = self.browser.find_element_by_css_selector(".jN-F5")
         search.send_keys(group_name+Keys.ENTER)  # we will send the name to the input key box
         # some say this two try catch below can be grouped into one
         # but I have some version specific issues with chrome [Other element would receive a click]
@@ -103,7 +103,7 @@ class WhatsApp:
     # get the status message of a person
     # TimeOut is approximately set to 10 seconds
     def get_status(self, name):
-        search = self.browser.find_element_by_xpath('//*[@id="side"]/div[2]/div/label/input')
+        search = self.browser.find_element_by_css_selector(".jN-F5")
         search.send_keys(name+Keys.ENTER)  # we will send the name to the input key box
         try:
             group_xpath = "/html/body/div/div/div/div[3]/header/div[1]/div/span/img"
@@ -137,7 +137,7 @@ class WhatsApp:
 
     # to get the last seen of the person
     def get_last_seen(self, name, timeout=10):
-        search = self.browser.find_element_by_xpath('//*[@id="side"]/div[2]/div/label/input')
+        search = self.browser.find_element_by_css_selector(".jN-F5")
         search.send_keys(name+Keys.ENTER)  # we will send the name to the input key box
         last_seen_css_selector = ".O90ur"
         start_time = dt.datetime.now()
@@ -175,7 +175,7 @@ class WhatsApp:
     # This method will send you the picture
     # This is a windows specific function, somebody PR for Mac and Linux
     def send_picture(self, name, picture_location, caption=None):
-        search = self.browser.find_element_by_xpath('//*[@id="side"]/div[2]/div/label/input')
+        search = self.browser.find_element_by_css_selector(".jN-F5")
         search.send_keys(name+Keys.ENTER)  # we will send the name to the input key box
         try:
             self.browser.find_element_by_xpath("/html/body/div/div/div/div[3]/div/header/div[3]/div/div[2]/div/span").click()
@@ -205,7 +205,7 @@ class WhatsApp:
         return message
 
     def get_profile_pic(self, name):
-        search = self.browser.find_element_by_xpath('//*[@id="side"]/div[2]/div/label/input')
+        search = self.browser.find_element_by_css_selector(".jN-F5")
         search.send_keys(name+Keys.ENTER)
         try:
             open_profile = WebDriverWait(self.browser,self.timeout).until(EC.presence_of_element_located(
@@ -245,7 +245,7 @@ class WhatsApp:
 
     # This method is used to get an invite link for a particular group
     def get_invite_link_for_group(self, groupname):
-        search = self.browser.find_element_by_xpath('//*[@id="side"]/div[2]/div/label/input')
+        search = self.browser.find_element_by_css_selector(".jN-F5")
         search.send_keys(groupname+Keys.ENTER)
         self.browser.find_element_by_css_selector("._2zCDG > span:nth-child(1)").click()
         try:
@@ -263,7 +263,7 @@ class WhatsApp:
 
     # This method is used to exit a group
     def exit_group(self, group_name):
-        search = self.browser.find_element_by_xpath('//*[@id="side"]/div[2]/div/label/input')
+        search = self.browser.find_element_by_css_selector(".jN-F5")
         search.send_keys(group_name+Keys.ENTER)
         self.browser.find_element_by_css_selector("._2zCDG > span:nth-child(1)").click()
         WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located((By.CSS_SELECTOR, "div._1CRb5:nth-child(6) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > span:nth-child(1)")))
