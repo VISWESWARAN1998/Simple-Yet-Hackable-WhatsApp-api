@@ -54,7 +54,7 @@ class WhatsApp:
         current_time = time.time()
         try:
             send_msg = WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located(
-                (By.XPATH, "/html/body/div/div/div/div[3]/div/footer/div[1]/div[2]/div/div[2]")))
+                (By.XPATH, "/html/body/div/div/div/div[4]/div/footer/div[1]/div[2]/div/div[2]")))
             send_msg.send_keys(message+Keys.ENTER)  # send the message
             return True
         except TimeoutException:
@@ -164,12 +164,14 @@ class WhatsApp:
     def send_blind_message(self, message):
         try:
             message = self.emojify(message)
-            send_msg = self.browser.find_element_by_xpath("/html/body/div/div/div/div[3]/div/footer/div[1]/div[2]/div/div[2]")
+            send_msg = WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located(
+                (By.XPATH, "/html/body/div/div/div/div[4]/div/footer/div[1]/div[2]/div/div[2]")))
             send_msg.send_keys(message+Keys.ENTER)  # send the message
             return True
         except NoSuchElementException:
             return "Unable to Locate the element"
         except Exception as e:
+            print(e)
             return False
 
     # This method will send you the picture
