@@ -62,6 +62,14 @@ app.exit_group("X-Test")
 
 ```
 
+**Sending Anonymous messages**
+```python
+from whatsapp import WhatsApp
+
+app = WhatsApp(10)
+app.send_anon_message("91XXXXXXXXXX", "I am sorry for what is happening sir! But I have no other choice.")
+```
+
 
 
 **Note:** Ir just automated the whatsapp, Nothing More, Nothing Less. This program is Licensed under Apache 2.0. 

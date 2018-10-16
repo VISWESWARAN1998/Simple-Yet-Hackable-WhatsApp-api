@@ -21,6 +21,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import TimeoutException
+from urllib.parse import urlencode
 #import pyautogui
 
 #pyautogui.PAUSE = 1
@@ -276,6 +277,17 @@ class WhatsApp:
         confirm_exit = self.browser.find_element_by_css_selector("div._1WZqU:nth-child(2)")
         confirm_exit.click()
         
+    # Send Anonymous message
+    def send_anon_message(self, phone, text):
+        payload = urlencode({"phone": phone, "text": text, "source": "", "data": ""})
+        self.browser.get("https://api.whatsapp.com/send?"+payload)
+        WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located((By.CSS_SELECTOR, "#action-button")))
+        send_message = self.browser.find_element_by_css_selector("#action-button")
+        send_message.click()
+        confirm = WebDriverWait(self.browser, self.timeout+5).until(EC.presence_of_element_located(
+                (By.XPATH, "/html/body/div/div/div/div[4]/div/footer/div[1]/div[2]/div/div[2]")))
+        confirm.clear()
+        confirm.send_keys(text+Keys.ENTER)        
 
     # This method is used to quit the browser
     def quit(self):
