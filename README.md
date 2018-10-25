@@ -51,6 +51,20 @@ time.sleep(10)
 print(app.get_invite_link_for_group("group"))
 ```
 
+**Join the group using invite link**
+```python
+# SWAMI KARUPPASWAMI THUNNAI
+
+from whatsapp import WhatsApp
+
+app = WhatsApp(10)
+app.override_timeout(30)
+app.join_group("https://chat.whatsapp.com/4AIA2B3GuLp4RJOKF0M8zY")
+app.send_blind_message("I am in :)")
+
+```
+
+
 **Exiting the group**
 ```python
 # SWAMI KARUPPASWAMI THUNNAI
