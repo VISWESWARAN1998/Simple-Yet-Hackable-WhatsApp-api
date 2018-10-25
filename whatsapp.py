@@ -246,6 +246,14 @@ class WhatsApp:
         group_text = self.browser.find_element_by_css_selector(".bsmJe > div:nth-child(2)")
         group_text.send_keys(group_name+Keys.ENTER)
 
+    def join_group(self, invite_link):
+        self.browser.get(invite_link)
+        join_chat = self.browser.find_element_by_css_selector("#action-button")
+        join_chat.click()
+        WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located((By.XPATH, '//*[@id="app"]/div/span[3]/div/div/div/div/div/div/div[2]/div[2]')))
+        join_group = self.browser.find_element_by_xpath('//*[@id="app"]/div/span[3]/div/div/div/div/div/div/div[2]/div[2]')
+        join_group.click()
+
     # This method is used to get an invite link for a particular group
     def get_invite_link_for_group(self, groupname):
         search = self.browser.find_element_by_css_selector(".jN-F5")
