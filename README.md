@@ -33,7 +33,7 @@ print(whatsapp.get_last_seen("Name"))
 ```python
 from whatsapp import WhatsApp
 whatsapp = WhatsApp(10)
-result = app.participants_count_for_group("The Night")
+result = app.participants_count_for_group("The Night Ghost Company")
 ```
 
 **creating a new group and getting invite link**
