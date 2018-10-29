@@ -22,6 +22,11 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import TimeoutException
 from urllib.parse import urlencode
+try:
+    from bs4 import BeautifulSoup
+except ModuleNotFoundError:
+    print("Beautiful Soup Library is reqired to make this library work(For getting participants list for the specified group).\npip3 install beautifulsoup4")
+
 #import pyautogui
 
 #pyautogui.PAUSE = 1
@@ -66,7 +71,7 @@ class WhatsApp:
             return False
 
     # This method will count the no of participants for the group name provided
-    def participants_for_group(self, group_name):
+    def participants_count_for_group(self, group_name):
         search = self.browser.find_element_by_css_selector(".jN-F5")
         search.send_keys(group_name+Keys.ENTER)  # we will send the name to the input key box
         # some say this two try catch below can be grouped into one
@@ -75,7 +80,7 @@ class WhatsApp:
         # it is handled safely
         try:
             click_menu = WebDriverWait(self.browser,self.timeout).until(EC.presence_of_element_located(
-                (By.XPATH, "/html/body/div/div/div/div[3]/div/header/div[2]/div[1]/div/span")))
+                (By.CSS_SELECTOR, "#main > header > div._1WBXd > div._2EbF- > div > span")))
             click_menu.click()
         except TimeoutException:
             raise TimeoutError("Your request has been timed out! Try overriding timeout!")
@@ -84,10 +89,10 @@ class WhatsApp:
         except Exception as e:
             return "None"
         current_time = dt.datetime.now()
-        participants_xpath = "/html/body/div/div/div/div[1]/div[3]/span/div/span/div/div/div/div[4]/div[1]/div/div/div/span"
+        participants_selector = "#app > div > div > div.MZIyP > div._3q4NP._2yeJ5 > span > div > span > div > div > div > div:nth-child(5) > div._2VQzd > div > div > div > span"
         while True:
             try:
-                participants_count = self.browser.find_element_by_xpath(participants_xpath).text
+                participants_count = self.browser.find_element_by_css_selector(participants_selector).text
                 if "participants" in participants_count:
                     return participants_count
             except Exception as e:
@@ -97,6 +102,42 @@ class WhatsApp:
             if elapsed_time > self.timeout:
                 return "NONE"
 
+    # This method is used to get all the participants
+    def get_group_participants(self, group_name):
+        self.participants_count_for_group(group_name)
+        search = self.browser.find_element_by_css_selector(".jN-F5")
+        search.send_keys(group_name+Keys.ENTER)  # we will send the name to the input key box
+        # some say this two try catch below can be grouped into one
+        # but I have some version specific issues with chrome [Other element would receive a click]
+        # in older versions. So I have handled it spereately since it clicks and throws the exception
+        # it is handled safely
+        try:
+            click_menu = WebDriverWait(self.browser,self.timeout).until(EC.presence_of_element_located(
+                (By.CSS_SELECTOR, "#main > header > div._1WBXd > div._2EbF- > div > span")))
+            click_menu.click()
+        except TimeoutException:
+            raise TimeoutError("Your request has been timed out! Try overriding timeout!")
+        except NoSuchElementException as e:
+            return "None"
+        except Exception as e:
+            return "None"
+        participants = []
+        scrollbar = self.browser.find_element_by_css_selector("#app > div > div > div.MZIyP > div._3q4NP._2yeJ5 > span > div > span > div > div")
+        for v in range(1, 100):
+            print(v)
+            self.browser.execute_script('arguments[0].scrollTop = '+str(v*300), scrollbar)
+            time.sleep(0.10)
+            elements = self.browser.find_elements_by_tag_name("span")
+            for element in elements:
+                try:
+                    html = element.get_attribute('innerHTML')
+                    soup = BeautifulSoup(html, "html.parser")
+                    for i in soup.find_all("span", class_="_3TEwt"):
+                        participants.append(i.text)
+                        print(i.text)
+                except Exception as e:
+                    pass   
+        return participants
     # This method is used to get the main page
     def goto_main(self):
         self.browser.get("https://web.whatsapp.com/")
