@@ -19,6 +19,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import TimeoutException
 from urllib.parse import urlencode
@@ -123,7 +124,7 @@ class WhatsApp:
             return "None"
         participants = []
         scrollbar = self.browser.find_element_by_css_selector("#app > div > div > div.MZIyP > div._3q4NP._2yeJ5 > span > div > span > div > div")
-        for v in range(1, 100):
+        for v in range(1, 70):
             print(v)
             self.browser.execute_script('arguments[0].scrollTop = '+str(v*300), scrollbar)
             time.sleep(0.10)
@@ -133,14 +134,24 @@ class WhatsApp:
                     html = element.get_attribute('innerHTML')
                     soup = BeautifulSoup(html, "html.parser")
                     for i in soup.find_all("span", class_="_3TEwt"):
-                        participants.append(i.text)
-                        print(i.text)
+                        if i.text not in participants:
+                            participants.append(i.text)
+                            print(i.text)
                 except Exception as e:
                     pass   
         return participants
+
     # This method is used to get the main page
     def goto_main(self):
-        self.browser.get("https://web.whatsapp.com/")
+        try:
+            self.browser.refresh()
+            Alert(self.browser).accept()
+        except Exception as e:
+            print(e)
+        WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located(
+            (By.CSS_SELECTOR, '.jN-F5')))
+
+        
 
     # get the status message of a person
     # TimeOut is approximately set to 10 seconds
@@ -330,6 +341,10 @@ class WhatsApp:
     def send_anon_message(self, phone, text):
         payload = urlencode({"phone": phone, "text": text, "source": "", "data": ""})
         self.browser.get("https://api.whatsapp.com/send?"+payload)
+        try:
+            Alert(self.browser).accept()
+        except:
+            print("No alert Found")
         WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located((By.CSS_SELECTOR, "#action-button")))
         send_message = self.browser.find_element_by_css_selector("#action-button")
         send_message.click()
