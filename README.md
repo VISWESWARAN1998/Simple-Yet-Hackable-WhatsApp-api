@@ -77,7 +77,7 @@ app.exit_group("X-Test")
 ```
 
 **Sending Anonymous messages** </br>
-*Note: The phone number should not contain spaces and special characters(+, -) but shall contain country code. Example: +91-861 123 4567 shoulld be formatted to 918611234567*
+*Note: The phone number should not contain spaces and special characters(+, -) but shall contain country code. Example: +91-861 123 4567 should be formatted to 918611234567*
 ```python
 # SWAMI KARUPPASWAMI THUNNAI
 
