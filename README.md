@@ -77,6 +77,7 @@ app.exit_group("X-Test")
 ```
 
 **Sending Anonymous messages**
+*Note: The phone number should not contain spaces and special characters(+, -) but shall contain country code. Example: +91-861 123 4567 shoulld be formatted to 918611234567*
 ```python
 # SWAMI KARUPPASWAMI THUNNAI
 
@@ -86,7 +87,33 @@ app = WhatsApp(10)
 app.send_anon_message("91XXXXXXXXXX", "I am sorry for what is happening sir! But I have no other choice.")
 ```
 
+**Sending Messages to multiple participants**
+Sometimes we need to send messages to multiple persons who may or may not be in our contact list. So we need to a combination of both *send_message* and *send_anon_message*. Here is an example where we get the contact numbers from a group and sending messages to individual persons in that group.
 
+```python
+# SWAMI KARUPPASWAMI THUNNAI
+
+from whatsapp import WhatsApp
+import time
+
+app = WhatsApp(100)
+app.override_timeout(30)
+participants = app.get_group_participants("GDG")
+print(participants)
+
+for participant in participants:
+    print("Sending: ", participant)
+    time.sleep(1)
+    try:
+        app.send_message(participant.strip(), "Hello, I'm a bot. And this is a research. Please ignore me and dont ping back")
+    except Exception as e:
+        print(e)
+        participant = participant.replace("+", "")
+        participant = participant.replace(" ", "")
+        app.send_anon_message(participant.strip(), "Hello, I'm a bot. And this is a research. Please ignore me and dont ping back")
+    app.goto_main()
+
+```
 
 **Note:** Ir just automated the whatsapp, Nothing More, Nothing Less. This program is Licensed under Apache 2.0. 
 
