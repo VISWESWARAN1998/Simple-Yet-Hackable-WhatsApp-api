@@ -76,7 +76,7 @@ app.exit_group("X-Test")
 
 ```
 
-**Sending Anonymous messages**
+**Sending Anonymous messages** </br>
 *Note: The phone number should not contain spaces and special characters(+, -) but shall contain country code. Example: +91-861 123 4567 shoulld be formatted to 918611234567*
 ```python
 # SWAMI KARUPPASWAMI THUNNAI
@@ -87,7 +87,7 @@ app = WhatsApp(10)
 app.send_anon_message("91XXXXXXXXXX", "I am sorry for what is happening sir! But I have no other choice.")
 ```
 
-**Sending Messages to multiple participants**
+**Sending Messages to multiple participants** </br>
 Sometimes we need to send messages to multiple persons who may or may not be in our contact list. So we need to a combination of both *send_message* and *send_anon_message*. Here is an example where we get the contact numbers from a group and sending messages to individual persons in that group.
 
 ```python
