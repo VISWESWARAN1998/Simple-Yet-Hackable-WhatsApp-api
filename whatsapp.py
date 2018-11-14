@@ -138,7 +138,25 @@ class WhatsApp:
                             participants.append(i.text)
                             print(i.text)
                 except Exception as e:
-                    pass   
+                    pass
+            elements = self.browser.find_elements_by_tag_name("div")
+            for element in elements:
+                try:
+                    html = element.get_attribute('innerHTML')
+                    soup = BeautifulSoup(html, "html.parser")
+                    for i in soup.find_all("div", class_="_25Ooe"):
+                        j = i.find("span", class_="_1wjpf")
+                        if j:
+                            j = j.text
+                            if "\n" in j:
+                                j = j.split("\n")
+                                j = j[0]
+                                j = j.strip()
+                                if j not in participants:
+                                    participants.append(j)
+                                    print(j)
+                except Exception as e:
+                    pass
         return participants
 
     # This method is used to get the main page
@@ -300,6 +318,10 @@ class WhatsApp:
 
     def join_group(self, invite_link):
         self.browser.get(invite_link)
+        try:
+            Alert(self.browser).accept()
+        except:
+            print("No alert Found")
         join_chat = self.browser.find_element_by_css_selector("#action-button")
         join_chat.click()
         WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located((By.XPATH, '//*[@id="app"]/div/span[3]/div/div/div/div/div/div/div[2]/div[2]')))
@@ -351,7 +373,22 @@ class WhatsApp:
         confirm = WebDriverWait(self.browser, self.timeout+5).until(EC.presence_of_element_located(
                 (By.XPATH, "/html/body/div/div/div/div[4]/div/footer/div[1]/div[2]/div/div[2]")))
         confirm.clear()
-        confirm.send_keys(text+Keys.ENTER)        
+        confirm.send_keys(text+Keys.ENTER)
+
+    # Check if the message is present in an user chat
+    def is_message_present(self, username, message):
+        search = self.browser.find_element_by_css_selector(".jN-F5")
+        search.send_keys(username+Keys.ENTER)
+        search_bar = WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located((By.CSS_SELECTOR, "._1i0-u > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > span:nth-child(1)")))
+        search_bar.click()
+        message_search = self.browser.find_element_by_css_selector("._1iopp > div:nth-child(1) > label:nth-child(4) > input:nth-child(1)")
+        message_search.clear()
+        message_search.send_keys(message+Keys.ENTER)
+        try:
+            WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/div/div[2]/div[3]/span/div/div/div[2]/div/div/div/div/div[1]/div/div/div/div[2]/div[1]/span/span/span")))
+            return True
+        except TimeoutException:
+            return False
 
     # This method is used to quit the browser
     def quit(self):
