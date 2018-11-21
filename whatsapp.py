@@ -58,11 +58,14 @@ class WhatsApp:
         message = self.emojify(message)  # this will emojify all the emoji which is present as the text in string
         search = self.browser.find_element_by_css_selector(".jN-F5")
         search.send_keys(name+Keys.ENTER)  # we will send the name to the input key box
-        current_time = time.time()
         try:
             send_msg = WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located(
                 (By.XPATH, "/html/body/div/div/div/div[4]/div/footer/div[1]/div[2]/div/div[2]")))
-            send_msg.send_keys(message+Keys.ENTER)  # send the message
+            messages = message.split("\n")
+            for msg in messages:
+                send_msg.send_keys(msg)
+                send_msg.send_keys(Keys.SHIFT+Keys.ENTER)
+            send_msg.send_keys(Keys.ENTER)
             return True
         except TimeoutException:
             raise TimeoutError("Your request has been timed out! Try overriding timeout!")
@@ -237,7 +240,11 @@ class WhatsApp:
             message = self.emojify(message)
             send_msg = WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located(
                 (By.XPATH, "/html/body/div/div/div/div[4]/div/footer/div[1]/div[2]/div/div[2]")))
-            send_msg.send_keys(message+Keys.ENTER)  # send the message
+            messages = message.split("\n")
+            for msg in messages:
+                send_msg.send_keys(msg)
+                send_msg.send_keys(Keys.SHIFT+Keys.ENTER)
+            send_msg.send_keys(Keys.ENTER)
             return True
         except NoSuchElementException:
             return "Unable to Locate the element"
