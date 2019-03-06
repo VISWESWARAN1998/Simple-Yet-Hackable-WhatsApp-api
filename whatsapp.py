@@ -339,9 +339,9 @@ class WhatsApp:
     def get_invite_link_for_group(self, groupname):
         search = self.browser.find_element_by_css_selector(".jN-F5")
         search.send_keys(groupname+Keys.ENTER)
-        self.browser.find_element_by_css_selector("._2zCDG > span:nth-child(1)").click()
+        self.browser.find_element_by_css_selector("#main > header > div._5SiUq > div._16vzP > div > span").click()
         try:
-            time.sleep(3)
+            #time.sleep(3)
             WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located(
                     (By.CSS_SELECTOR, "#app > div > div > div.MZIyP > div._3q4NP._2yeJ5 > span > div > span > div > div > div > div:nth-child(5) > div:nth-child(3) > div._3j7s9 > div > div")))
             invite_link = self.browser.find_element_by_css_selector("#app > div > div > div.MZIyP > div._3q4NP._2yeJ5 > span > div > span > div > div > div > div:nth-child(5) > div:nth-child(3) > div._3j7s9 > div > div")
@@ -396,6 +396,42 @@ class WhatsApp:
             return True
         except TimeoutException:
             return False
+
+    # Get all starred messages
+    def get_starred_messages(self, delay=10):
+        starred_messages = []
+        self.browser.find_element_by_css_selector("div.rAUz7:nth-child(3) > div:nth-child(1) > span:nth-child(1)").click()
+        chains = ActionChains(self.browser)
+        time.sleep(2)
+        for i in range(4):
+            chains.send_keys(Keys.ARROW_DOWN)
+        chains.send_keys(Keys.ENTER)
+        chains.perform()
+        time.sleep(delay)
+        messages = self.browser.find_elements_by_class_name("MS-DH")
+        for message in messages:
+            try:
+                message_html = message.get_attribute("innerHTML")
+                soup = BeautifulSoup(message_html, "html.parser")
+                _from = soup.find("span", class_="_1qUQi")["title"]
+                to = soup.find("div", class_="copyable-text")["data-pre-plain-text"]
+                message_text = soup.find("span", class_="selectable-text invisible-space copyable-text").text
+                message.click()
+                selector = self.browser.find_element_by_css_selector("#main > header > div._5SiUq > div._16vzP > div > span")
+                title = selector.text
+                selector.click()
+                time.sleep(2)
+                WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.CSS_SELECTOR, "div._14oqx:nth-child(3) > div:nth-child(1) > div:nth-child(1) > span:nth-child(1) > span:nth-child(1)")))
+                phone = self.browser.find_element_by_css_selector("div._14oqx:nth-child(3) > div:nth-child(1) > div:nth-child(1) > span:nth-child(1) > span:nth-child(1)").text
+                if title in _from:
+                    _from = _from.replace(title, phone)
+                else:
+                    to = to.replace(title, phone)
+                starred_messages.append([_from, to, message_text])
+            except Exception as e:
+                print("Handled: ", e)
+        return starred_messages
+            
 
     # This method is used to quit the browser
     def quit(self):
