@@ -115,6 +115,15 @@ for participant in participants:
 
 ```
 
+**Sending pictures to a person:**
+
+```python
+# Note of Thanks: This part of code have been taken from WhatsApp Assistant bot by Jean-Claude Tissier(@jctissier).
+# Github repo-link: https://github.com/jctissier/whatsapp-assistant-bot
+# License: MIT
+app.send_picture("Vignesh", os.getcwd()+"/pic.jpg")
+```
+
 **Note:** Ir just automated the whatsapp, Nothing More, Nothing Less. This program is Licensed under Apache 2.0. 
 
 Thank you for so many stars on this project, you can support me in follwing ways,

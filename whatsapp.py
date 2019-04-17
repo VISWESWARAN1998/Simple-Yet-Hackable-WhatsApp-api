@@ -254,24 +254,29 @@ class WhatsApp:
 
     # This method will send you the picture
     # This is a windows specific function, somebody PR for Mac and Linux
-    def send_picture(self, name, picture_location, caption=None):
+    def send_picture(self, name, picture_location):
         search = self.browser.find_element_by_css_selector(".jN-F5")
         search.send_keys(name+Keys.ENTER)  # we will send the name to the input key box
         try:
-            self.browser.find_element_by_xpath("/html/body/div/div/div/div[3]/div/header/div[3]/div/div[2]/div/span").click()
-        except NoSuchElementException:
-            return "Unable to Locate the element"
-        pyautogui.press("down")
-        pyautogui.press("enter")
-        pyautogui.typewrite(picture_location)
-        pyautogui.press("enter")
-        try:
-            if caption is not None:
-                message = self.browser.find_element_by_xpath("/html/body/div/div/div/div[1]/div[2]/span/div/span/div/div/div[2]/div/span/div/div[2]/div/div[3]/div[1]/div[2]")
-                message.send_keys(caption)
-            self.browser.find_element_by_xpath("/html/body/div/div/div/div[1]/div[2]/span/div/span/div/div/div[2]/span[2]/div/div/span").click()
-        except NoSuchElementException:
-            return "Cannot Send the picture"
+            attach_xpath = '//*[@id="main"]/header/div[3]/div/div[2]/div'
+            send_file_xpath = '/html/body/div[1]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/span[2]/div/div/span'
+            attach_type_xpath = '/html/body/div[1]/div/div/div[4]/div/header/div[3]/div/div[2]/span/div/div/ul/li[1]/button/input'
+            # open attach menu
+            attach_btn = self.browser.find_element_by_xpath(attach_xpath)
+            attach_btn.click()
+
+            # Find attach file btn and send screenshot path to input
+            time.sleep(1)
+            attach_img_btn = self.browser.find_element_by_xpath(attach_type_xpath)
+
+            # TODO - might need to click on transportation mode if url doesn't work
+            attach_img_btn.send_keys(picture_location)           # get current script path + img_path
+            time.sleep(1)
+            send_btn = self.browser.find_element_by_xpath(send_file_xpath)
+            send_btn.click()
+
+        except (NoSuchElementException, ElementNotVisibleException) as e:
+            print(str(e))
 
 
     # override the timeout
