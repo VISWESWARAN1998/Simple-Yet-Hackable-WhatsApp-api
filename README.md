@@ -1,4 +1,5 @@
 # Simple-Yet-Hackable-WhatsApp-api
+![HitCount](http://hits.dwyl.io/VISWESWARAN1998/SimpleYetHackableWhatsAppAPI.svg)
 
 **Using This API you can achieve many things in less than 5 lines of code**
 
