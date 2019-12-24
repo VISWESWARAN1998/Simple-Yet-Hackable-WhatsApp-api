@@ -125,6 +125,17 @@ for participant in participants:
 app.send_picture("Vignesh", os.getcwd()+"/pic.jpg")
 ```
 
+**Clearing the chat:**
+
+```python
+# SWAMI KARUPPASWAMI THUNNAI
+
+from whatsapp import WhatsApp
+
+whatsapp = WhatsApp(100)
+whatsapp.clear_chat("Test")
+```
+
 **Note:** Ir just automated the whatsapp, Nothing More, Nothing Less. This program is Licensed under Apache 2.0. 
 
 Thank you for so many stars on this project, you can support me in follwing ways,
