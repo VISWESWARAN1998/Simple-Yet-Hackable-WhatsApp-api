@@ -1,4 +1,4 @@
-﻿# SWAMI KARUPPASWAMI THUNNAI
+# SWAMI KARUPPASWAMI THUNNAI
 
 # ============================================================
 # Simple yet Hackable! WhatsApp API [UNOFFICIAL] for Python3
@@ -253,7 +253,6 @@ class WhatsApp:
             return False
 
     # This method will send you the picture
-    # This is a windows specific function, somebody PR for Mac and Linux
     def send_picture(self, name, picture_location, caption=None):
         search = self.browser.find_element_by_css_selector("._2zCfw")
         search.send_keys(name+Keys.ENTER)  # we will send the name to the input key box
@@ -281,6 +280,33 @@ class WhatsApp:
 
         except (NoSuchElementException, ElementNotVisibleException) as e:
             print(str(e))
+
+    # For sending documents
+    def send_document(self, name, document_location):
+        search = self.browser.find_element_by_css_selector("._2zCfw")
+        search.send_keys(name+Keys.ENTER)  # we will send the name to the input key box
+        try:
+            attach_xpath = '//*[@id="main"]/header/div[3]/div/div[2]/div'
+            send_file_xpath = '/html/body/div[1]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/span[2]/div/div/span'
+            attach_type_xpath = '/html/body/div[1]/div/div/div[4]/div/header/div[3]/div/div[2]/span/div/div/ul/li[3]/button/input'
+            # open attach menu
+            attach_btn = self.browser.find_element_by_xpath(attach_xpath)
+            attach_btn.click()
+
+            # Find attach file btn and send screenshot path to input
+            time.sleep(1)
+            attach_img_btn = self.browser.find_element_by_xpath(attach_type_xpath)
+
+            # TODO - might need to click on transportation mode if url doesn't work
+            attach_img_btn.send_keys(document_location)           # get current script path + img_path
+            time.sleep(1)
+            send_btn = self.browser.find_element_by_xpath(send_file_xpath)
+            send_btn.click()
+
+        except (NoSuchElementException, ElementNotVisibleException) as e:
+            print(str(e))
+
+    
 
     # Clear the chat
     def clear_chat(self, name):
