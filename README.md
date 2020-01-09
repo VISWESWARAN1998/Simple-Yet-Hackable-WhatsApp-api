@@ -125,6 +125,18 @@ for participant in participants:
 app.send_picture("Vignesh", os.getcwd()+"/pic.jpg")
 ```
 
+**Sending documents to a person:**
+
+```python
+# SWAMI KARUPPASWAMI THUNNAI
+
+import os
+from whatsapp import WhatsApp
+
+whatsapp = WhatsApp(100)
+whatsapp.send_document("Thamarai", os.path.join(os.getcwd(), "message.txt"))
+```
+
 **Clearing the chat:**
 
 ```python
