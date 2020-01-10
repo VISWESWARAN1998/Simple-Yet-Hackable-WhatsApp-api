@@ -13,6 +13,20 @@ print(whatsapp.send_message("Name",":heart: Good!"))
 **Result:** <br>
 ![Image](https://raw.githubusercontent.com/VISWESWARAN1998/Simple-Yet-Hackable-WhatsApp-api/master/Screenshot%20(747).png)
 
+**Running from an existing session:**
+It it very difficult for us to scan the QR code for logging in everytime if the session is not saved, you can avoid it by adding the session parameter like this,
+```python
+# SWAMI KARUPPASWAMI THUNNAI
+
+import os
+from whatsapp import WhatsApp
+
+whatsapp = WhatsApp(100, session="mysession")
+whatsapp.send_document("Thamarai", os.path.join(os.getcwd(), "message.txt"))
+```
+
+Your data will be saved into `mysession` folder from the above example. Make sure you protect your session folder.
+
 **Getting the status message of a person:**
 
 ```python
