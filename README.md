@@ -162,6 +162,25 @@ whatsapp = WhatsApp(100)
 whatsapp.clear_chat("Test")
 ```
 
+**Getting usernames with unread messages:**
+Will return the list of usernames for which we have yet to reply that person. Increase the count of scrolls according to your needs.
+
+```python
+# SWAMI KARUPPASWAMI THUNNAI
+
+from whatsapp import WhatsApp
+
+whatsapp = WhatsApp(100, session="mysession")
+print(whatsapp.unread_usernames(scrolls=1000))
+```
+
+and we will receive an output as a Python list. Something like this,
+
+```
+['Ziv Freelance Employer', 'Vignesh', 'InstagramTest', '+91 9xx36 8xxx2', 'Sundar Sir', '+91 xxx47 8xxx9']
+```
+
+
 **Note:** Ir just automated the whatsapp, Nothing More, Nothing Less. This program is Licensed under Apache 2.0. 
 
 Thank you for so many stars on this project, you can support me in follwing ways,
