@@ -493,6 +493,23 @@ class WhatsApp:
             except Exception as e:
                 print("Handled: ", e)
         return starred_messages
+
+    # Getting usernames which has unread messages
+    def unread_usernames(self, scrolls=100):
+        self.goto_main()
+        initial = 10
+        usernames = []
+        for i in range(0, scrolls):
+            self.browser.execute_script("document.getElementById('pane-side').scrollTop={}".format(initial))
+            soup = BeautifulSoup(self.browser.page_source, "html.parser")
+            for i in soup.find_all("div", class_="_2WP9Q"):
+                if i.find("div", class_="_1ZMSM"):
+                    username = i.find("div", class_="_3H4MS").text
+                    usernames.append(username)
+            initial += 10
+        # Remove duplicates
+        usernames = list(set(usernames))
+        return usernames
             
 
     # This method is used to quit the browser
