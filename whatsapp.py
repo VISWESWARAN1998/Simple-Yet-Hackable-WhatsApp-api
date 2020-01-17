@@ -510,7 +510,24 @@ class WhatsApp:
         # Remove duplicates
         usernames = list(set(usernames))
         return usernames
-            
+
+    # Get the driver object
+    def get_driver(self):
+        return self.browser
+
+    # Get last messages
+    def get_last_message_for(self, name):
+        messages = list()
+        search = self.browser.find_element_by_css_selector("._2zCfw")
+        search.send_keys(name+Keys.ENTER)
+        time.sleep(3)
+        soup = BeautifulSoup(self.browser.page_source, "html.parser")
+        for i in soup.find_all("div", class_="FTBzM message-in"):
+            message = i.find("div", class_="_12pGw")
+            if message:
+                messages.append(message.text)
+        messages = list(filter(None, messages))
+        return messages
 
     # This method is used to quit the browser
     def quit(self):
