@@ -180,6 +180,39 @@ and we will receive an output as a Python list. Something like this,
 ['Ziv Freelance Employer', 'Vignesh', 'InstagramTest', '+91 9xx36 8xxx2', 'Sundar Sir', '+91 xxx47 8xxx9']
 ```
 
+### Getting the last sent messages for a username:
+
+```python
+# SWAMI KARUPPASWAMI THUNNAI
+
+from whatsapp import WhatsApp
+
+whatsapp = WhatsApp(100, session="mysession")
+messages = whatsapp.get_last_message_for("Thamarai")
+print(messages)
+```
+
+*Note:* I am still working on it and it might break.
+
+### Interesting use cases:
+
+**Replying to all stale messages:**
+
+```python
+# SWAMI KARUPPASWAMI THUNNAI
+
+from whatsapp import WhatsApp
+
+whatsapp = WhatsApp(100, session="mysession")
+usernames = whatsapp.unread_usernames(scrolls=1000)
+for username in usernames:
+    try:
+        whatsapp.send_message(username, "Hello I am a bot, apologies that my creator hasn't replied to you yet. please ping again. ")
+        whatsapp.send_blind_message("Know more about me: https://github.com/VISWESWARAN1998/Simple-Yet-Hackable-WhatsApp-api")
+    except:
+        print("You don't have permission to send message to this group/person")
+```
+
 
 **Note:** Ir just automated the whatsapp, Nothing More, Nothing Less. This program is Licensed under Apache 2.0. 
 
