@@ -266,7 +266,7 @@ class WhatsApp:
         search.send_keys(name+Keys.ENTER)  # we will send the name to the input key box
         try:
             attach_xpath = '//*[@id="main"]/header/div[3]/div/div[2]/div'
-            send_file_xpath = '/html/body/div[1]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/span[2]/div/div/span'
+            send_file_xpath = '/html/body/div[1]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/span/div/div/span'
             attach_type_xpath = '/html/body/div[1]/div/div/div[4]/div/header/div[3]/div/div[2]/span/div/div/ul/li[1]/button/input'
             # open attach menu
             attach_btn = self.browser.find_element_by_xpath(attach_xpath)
@@ -295,7 +295,7 @@ class WhatsApp:
         search.send_keys(name+Keys.ENTER)  # we will send the name to the input key box
         try:
             attach_xpath = '//*[@id="main"]/header/div[3]/div/div[2]/div'
-            send_file_xpath = '/html/body/div[1]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/span[2]/div/div/span'
+            send_file_xpath = '/html/body/div[1]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/span/div/div/span'
             attach_type_xpath = '/html/body/div[1]/div/div/div[4]/div/header/div[3]/div/div[2]/span/div/div/ul/li[3]/button/input'
             # open attach menu
             attach_btn = self.browser.find_element_by_xpath(attach_xpath)
