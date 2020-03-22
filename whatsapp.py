@@ -56,7 +56,7 @@ class WhatsApp:
         with open("emoji.json") as emojies:
             self.emoji = json.load(emojies)  # This will load the emojies present in the json file into the dict
         WebDriverWait(self.browser,wait).until(EC.presence_of_element_located(
-            (By.CSS_SELECTOR, '._3u328')))            
+            (By.CSS_SELECTOR, '._3u328')))
         if screenshot is not None:
             self.browser.save_screenshot(screenshot)  # This will save the screenshot to the specified file location
 
@@ -180,7 +180,7 @@ class WhatsApp:
         WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located(
             (By.CSS_SELECTOR, '._3u328')))
 
-        
+
 
     # get the status message of a person
     # TimeOut is approximately set to 10 seconds
@@ -314,7 +314,7 @@ class WhatsApp:
         except (NoSuchElementException, ElementNotVisibleException) as e:
             print(str(e))
 
-    
+
 
     # Clear the chat
     def clear_chat(self, name):
@@ -333,7 +333,7 @@ class WhatsApp:
         WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located(
                 (By.XPATH, clear_xpath)))
         self.browser.find_element_by_xpath(clear_xpath).click()
-        
+
 
 
     # override the timeout
@@ -385,6 +385,44 @@ class WhatsApp:
         group_text = self.browser.find_element_by_css_selector(".bsmJe > div:nth-child(2)")
         group_text.send_keys(group_name+Keys.ENTER)
 
+    def set_group_picture(self, group_name, picture_location):
+        search = self.browser.find_element_by_css_selector("._3u328")
+        search.send_keys(group_name+Keys.ENTER)  # we will send the group name to the input key box
+        try:
+            menu_xpath = '/html/body/div[1]/div/div/div[4]/div/header/div[3]/div/div[3]/div/span'
+            group_info_xpath = '/html/body/div[1]/div/div/div[4]/div/header/div[3]/div/div[3]/span/div/ul/li[1]/div'
+            image_input_xpath = '/html/body/div[1]/div/div/div[2]/div[3]/span/div/span/div/div/div[1]/div[1]/div[1]/div/input'
+            zoom_out_xpath = '/html/body/div[1]/div/span[2]/div/div/div/div/div/div/span/div/div/div[1]/div[1]/div[2]/span'
+            save_btn_xpath = '/html/body/div[1]/div/span[2]/div/div/div/div/div/div/span/div/div/div[2]/span/div/div'
+            exit_group_info_xpath = '/html/body/div[1]/div/div/div[2]/div[3]/span/div/span/div/header/div/div[1]/button/span'
+
+            # open group info
+            menu = self.browser.find_element_by_xpath(menu_xpath)
+            menu.click()
+            time.sleep(1)
+            group_info = self.browser.find_element_by_xpath(group_info_xpath)
+            group_info.click()
+
+            # find image input and send picutre path
+            time.sleep(1)
+            image_input = self.browser.find_element_by_xpath(image_input_xpath)
+            image_input.send_keys(picture_location)
+
+            # zoom out picture and save
+            time.sleep(1)
+            zoom_out = self.browser.find_element_by_xpath(zoom_out_xpath)
+            for i in range(0, 5):
+                zoom_out.click()
+            save_btn = self.browser.find_element_by_xpath(save_btn_xpath)
+            save_btn.click()
+
+            # close the group info
+            time.sleep(1)
+            exit_group_info = self.browser.find_element_by_xpath(exit_group_info_xpath)
+            exit_group_info.click()
+        except (NoSuchElementException, ElementNotVisibleException) as e:
+            print(str(e))
+
     def join_group(self, invite_link):
         self.browser.get(invite_link)
         try:
@@ -427,7 +465,7 @@ class WhatsApp:
         WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located((By.CSS_SELECTOR, "div._1WZqU:nth-child(2)")))
         confirm_exit = self.browser.find_element_by_css_selector("div._1WZqU:nth-child(2)")
         confirm_exit.click()
-        
+
     # Send Anonymous message
     def send_anon_message(self, phone, text):
         payload = urlencode({"phone": phone, "text": text, "source": "", "data": ""})
