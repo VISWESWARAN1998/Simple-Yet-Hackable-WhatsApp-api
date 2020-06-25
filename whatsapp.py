@@ -540,9 +540,9 @@ class WhatsApp:
         for i in range(0, scrolls):
             self.browser.execute_script("document.getElementById('pane-side').scrollTop={}".format(initial))
             soup = BeautifulSoup(self.browser.page_source, "html.parser")
-            for i in soup.find_all("div", class_="_2EXPL CxUIE"):
-                if i.find("div", class_="_2FBdJ"):
-                    username = i.find("div", class_="_25Ooe").text
+            for i in soup.find_all("div", class_="eJ0yJ _8Uqu5"):
+                if i.find("div", class_="_3dtfX"):
+                    username = i.find("div", class_="_3CneP").text
                     usernames.append(username)
             initial += 10
         # Remove duplicates
