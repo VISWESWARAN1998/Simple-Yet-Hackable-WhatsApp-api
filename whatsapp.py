@@ -65,7 +65,7 @@ class WhatsApp:
     def send_message(self, name, message):
         message = self.emojify(message)  # this will emojify all the emoji which is present as the text in string
         search = self.browser.find_element_by_css_selector("._3FRCZ")
-        search.send_keys(name+Keys.ENTER) # we will send the name to the input key box
+        search.send_keys(name+Keys.ENTER)  # we will send the name to the input key box
         # Aahnik 2020 Solving Issue #48 raised by me @aahnik
         try:
             person = WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located(
