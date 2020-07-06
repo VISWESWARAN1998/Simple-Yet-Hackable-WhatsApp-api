@@ -1,8 +1,13 @@
 from whatsapp import WhatsApp
-msg = """	*laughing*  :-) 
-	neutral_face :-| _stuck_out_tongue_  :-p
-	~heart~  <3  simple_smile :-) 
-	*worried* :-( (n) 
-	thumbsup (y) wink ;-) """
-wapp = WhatsApp(100, session='my')
-wapp.send_message('Aahnik Personal', msg)
+wapp = WhatsApp(100)
+temp = """
+Hi ! *$NAME* , you haved scored *$marks* in Exam
+
+Your Detailed Report :
+	_RANK_ : *$rank*
+	_PERCENTILE_ : *$perc*
+	_GRADE_ : *$grade*
+
+:-) Keep Studying (y)
+"""  # prefix the variables with a dollar sign
+wapp.send_messages_in_batch('students.csv', temp)

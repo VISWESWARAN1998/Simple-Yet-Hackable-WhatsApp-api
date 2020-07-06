@@ -16,13 +16,34 @@ wapp = WhatsApp(100)
 wapp.send_message('Name', msg)
 
 ```
-**Result:** <br>
+**Result:** 
+
 ![Image of Result](ScreenShots/emojiDemo.png)
 
 
 **Sending Customized Messages in Bulk ie Dynamic Batch Messaging :**
 
+Suppose you have a csv file like this 
+![csv file image](ScreenShots/csvfile.png)
 
+```python
+from whatsapp import WhatsApp
+wapp = WhatsApp(100)
+temp = """
+Hi ! *$NAME* , you haved scored *$marks* in Exam
+
+Your Detailed Report :
+	_RANK_ : *$rank*
+	_PERCENTILE_ : *$perc*
+	_GRADE_ : *$grade*
+
+:-) Keep Studying (y)
+"""  # prefix the variables with a dollar sign
+wapp.send_messages_in_batch('students.csv', temp)
+```
+**Result:**
+
+![image](ScreenShots/Dynamic Bulk Messaging From csv.png)
 
 
 
