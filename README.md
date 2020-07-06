@@ -1,7 +1,7 @@
 # Simple-Yet-Hackable-WhatsApp-api
 ![HitCount](http://hits.dwyl.io/VISWESWARAN1998/SimpleYetHackableWhatsAppAPI.svg)
 
-### You must have latest version of Chrome Driver for your operating System [download](https://chromedriver.chromium.org/downloads)
+**You must have latest version of Chrome Driver for your operating System [download](https://chromedriver.chromium.org/downloads)**
 
 **Go to the `conf.py` file and set the value of  `CHROME_DRIVER_PATH`  to the path of installation of Chrome Driver in your system**
 
@@ -9,7 +9,7 @@ See other Requirements in `requirements.txt`
 
 # **Using This API you can achieve many things in less than 5 lines of code**
 
-## **Sending a formatted message with emojis :**
+## **Sending a formatted message with emojis **
 
 ```python
 from whatsapp import WhatsApp
@@ -22,21 +22,21 @@ wapp = WhatsApp(100)
 wapp.send_message('Name', msg)
 
 ```
-**Result:** 
+**Result** 
 
 ![Image of Result](ScreenShots/emojiDemo.png)
 
 
-## **Sending Customized Messages in Bulk ie Dynamic Batch Messaging :**
+## **Sending Customized Messages in Bulk ie Dynamic Batch Messaging **
 
-### **Suppose you have a csv file like this**
+### Suppose you have a csv file like this
 **The csv file must have a header , see below example (line 1 is header)
 The csv file must have a NAME coloumn**
 (the name which is saved in your phone)
 
 ![csv file image](ScreenShots/csvfile.png)
 
-### **And you also have a template string (prefix variables with dollar sign)**
+### And you also have a template string (prefix variables with dollar sign)
 ```python
 from whatsapp import WhatsApp
 wapp = WhatsApp(100)
@@ -53,13 +53,13 @@ Your Detailed Report :
 wapp.send_messages_in_batch('students.csv', temp)
 # the function send_messages_in_batch takes two arguments csv file path and template
 ```
-**Result:**
+**Result**
 
 ![image](ScreenShots/DynamicBulkMessagingFromcsv.pngBulkMessagingFromcsv.png)
 
 
 
-## **Running from an existing session:**
+## Running from an existing session
 It it very difficult for us to scan the QR code for logging in everytime if the session is not saved, you can avoid it by adding the session parameter like this,
 ```python
 # SWAMI KARUPPASWAMI THUNNAI
@@ -73,7 +73,7 @@ whatsapp.send_document("Thamarai", os.path.join(os.getcwd(), "message.txt"))
 
 Your data will be saved into `mysession` folder from the above example. Make sure you protect your session folder.
 
-## **Getting the status message of a person:**
+## Getting the status message of a person
 
 ```python
 from whatsapp import WhatsApp
@@ -81,7 +81,7 @@ whatsapp = WhatsApp(10)
 print(whatsapp.get_status("Name"))
 ```
 
-## **Getting last seen of a person:**
+## Getting last seen of a person
 
 ```python
 from whatsapp import WhatsApp
@@ -89,7 +89,7 @@ whatsapp = WhatsApp(10)
 print(whatsapp.get_last_seen("Name"))
 ```
 
-## **Getting the no of participants in the group:**
+## Getting the no of participants in the group
 
 ```python
 from whatsapp import WhatsApp
@@ -97,14 +97,12 @@ whatsapp = WhatsApp(10)
 result = app.participants_count_for_group("The Night Ghost Company")
 ```
 
-## **creating a new group and getting invite link**
+## creating a new group and getting invite link
 
 ```python
 # SWAMI KARUPPASWAMI THUNNAI
-
 from whatsapp import WhatsApp
 import time
-
 app = WhatsApp(100)
 parameter1: group name, parameter 2: group members
 app.create_group("group", ["Thamarai", "Jeeva"])
@@ -115,45 +113,37 @@ print(app.get_invite_link_for_group("group"))
 **Join the group using invite link**
 ```python
 # SWAMI KARUPPASWAMI THUNNAI
-
 from whatsapp import WhatsApp
-
 app = WhatsApp(10)
 app.override_timeout(30)
 app.join_group("https://chat.whatsapp.com/4AIA2B3GuLp4RJOKF0M8zY")
 app.send_blind_message("I am in :)")
-
 ```
 
 
-## **Exiting the group**
+## Exiting the group
 ```python
 # SWAMI KARUPPASWAMI THUNNAI
-
 from whatsapp import WhatsApp
-
 app = WhatsApp(100)
 app.exit_group("X-Test")
 
 ```
 
-## **Sending Anonymous messages [WHATSAPP WILL BAN YOUR PHONE NUMBER IF YOU SEND MANY ANONYMOUS MESSAGES]** </br>
+## Sending Anonymous messages [WHATSAPP WILL BAN YOUR PHONE NUMBER IF YOU SEND MANY ANONYMOUS MESSAGES] </br>
 *Note: The phone number should not contain spaces and special characters(+, -) but shall contain country code. Example: +91-861 123 4567 should be formatted to 918611234567*
 ```python
 # SWAMI KARUPPASWAMI THUNNAI
-
 from whatsapp import WhatsApp
-
 app = WhatsApp(10)
 app.send_anon_message("91XXXXXXXXXX", "I am sorry for what is happening sir! But I have no other choice.")
 ```
 
-## **Sending Messages to multiple participants** </br>
+## Sending Messages to multiple participants </br>
 Sometimes we need to send messages to multiple persons who may or may not be in our contact list. So we need to a combination of both *send_message* and *send_anon_message*. Here is an example where we get the contact numbers from a group and sending messages to individual persons in that group.
 
 ```python
 # SWAMI KARUPPASWAMI THUNNAI
-
 from whatsapp import WhatsApp
 import time
 
@@ -176,7 +166,7 @@ for participant in participants:
 
 ```
 
-## **Sending pictures to a person:**
+## Sending pictures to a person
 
 ```python
 # Note of Thanks: This part of code have been taken from WhatsApp Assistant bot by Jean-Claude Tissier(@jctissier).
@@ -185,11 +175,10 @@ for participant in participants:
 app.send_picture("Vignesh", os.getcwd()+"/pic.jpg")
 ```
 
-## **Sending documents to a person:**
+## Sending documents to a person
 
 ```python
 # SWAMI KARUPPASWAMI THUNNAI
-
 import os
 from whatsapp import WhatsApp
 
@@ -197,7 +186,7 @@ whatsapp = WhatsApp(100)
 whatsapp.send_document("Thamarai", os.path.join(os.getcwd(), "message.txt"))
 ```
 
-## **Clearing the chat:**
+## Clearing the chat
 
 ```python
 # SWAMI KARUPPASWAMI THUNNAI
@@ -208,7 +197,7 @@ whatsapp = WhatsApp(100)
 whatsapp.clear_chat("Test")
 ```
 
-## **Getting usernames with unread messages:**
+## Getting usernames with unread messages
 Will return the list of usernames for which we have yet to reply that person. Increase the count of scrolls according to your needs.
 
 ```python
@@ -226,7 +215,7 @@ and we will receive an output as a Python list. Something like this,
 ['Ziv Freelance Employer', 'Vignesh', 'InstagramTest', '+91 9xx36 8xxx2', 'Sundar Sir', '+91 xxx47 8xxx9']
 ```
 
-## Getting the last sent messages for a username:
+## Getting the last sent messages for a username
 
 ```python
 # SWAMI KARUPPASWAMI THUNNAI
@@ -240,7 +229,7 @@ print(messages)
 
 *Note:* I am still working on it and it might break.
 
-## Interesting use cases:
+## Interesting use cases
 
 **Replying to all stale messages:**
 
@@ -260,7 +249,7 @@ for username in usernames:
 ```
 
 
-**Note:** Ir just automated the whatsapp, Nothing More, Nothing Less. This program is Licensed under Apache 2.0. 
+**Note:** I just automated the whatsapp, Nothing More, Nothing Less. This program is Licensed under Apache 2.0. 
 
 Thank you for so many stars on this project, you can support me in follwing ways,
 
