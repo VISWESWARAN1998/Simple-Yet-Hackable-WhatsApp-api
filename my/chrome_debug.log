@@ -1,5 +1,0 @@
-[16779:16779:0706/185800.495141:ERROR:sandbox_linux.cc(374)] InitializeSandbox() called with multiple threads in process gpu-process.
-[16926:16926:0706/185808.186851:WARNING:audio_manager_linux.cc(58)] Falling back to ALSA for audio output. PulseAudio is not available or could not be initialized.
-[16926:16926:0706/185808.287751:ERROR:alsa_util.cc(204)] PcmOpen: default,No such file or directory
-[16926:16926:0706/185808.288765:ERROR:alsa_util.cc(204)] PcmOpen: plug:default,No such file or directory
-[16742:16742:0706/185842.349551:WARNING:pref_notifier_impl.cc(40)] Pref observer for media_router.cast_allow_all_ips found at shutdown.
