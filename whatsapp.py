@@ -39,7 +39,6 @@ class WhatsApp:
     """
     This class is used to interact with your whatsapp [UNOFFICIAL API]
     """
-    emoji = {}  # This dict will contain all emojies needed for chatting
     browser = None
     timeout = 10  # The timeout is set for about ten seconds
 
