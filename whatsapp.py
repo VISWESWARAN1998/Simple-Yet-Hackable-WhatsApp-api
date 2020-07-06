@@ -277,7 +277,6 @@ class WhatsApp:
     # you can use this method to recursively send the messages to the same person
     def send_blind_message(self, message):
         try:
-            message = self.emojify(message)
             send_msg = WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located(
                 (By.XPATH, "/html/body/div/div/div/div[4]/div/footer/div[1]/div[2]/div/div[2]")))
             messages = message.split("\n")
