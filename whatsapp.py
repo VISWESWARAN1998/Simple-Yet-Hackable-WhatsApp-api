@@ -66,6 +66,18 @@ class WhatsApp:
         message = self.emojify(message)  # this will emojify all the emoji which is present as the text in string
         search = self.browser.find_element_by_css_selector("._3FRCZ")
         search.send_keys(name+Keys.ENTER)  # we will send the name to the input key box
+        # Aahnik 2020 Solving Issue #48 raised by me @aahnik
+        try:
+            person = WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located(
+                (By.XPATH, f'//*[@id="main"]/header/div[2]/div/div/span[contains(@title,"{name}")]')))
+            print(person) # comment out this line if not required
+            # checking whether new person is loaded or not
+        except Exception:
+            print(f"""{name} not loaded, MAY BE NOT IN YOUR CONTACTS , or your request has been TIMED OUT !!
+            If you are sure {name} is in your contacts, Try checking internet conection or Try overriding Timeout! """)
+            search.send_keys((Keys.BACKSPACE)*len(name))
+            # clearing the search bar by backspace, so that searching the next person doesnt have any issue
+            return False
         try:
             send_msg = WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located(
                 (By.XPATH, "/html/body/div/div/div/div[4]/div/footer/div[1]/div[2]/div/div[2]")))
