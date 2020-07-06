@@ -6,6 +6,7 @@
 # Special Thanks To: alecxe, For reviewing my code!
 # ============================================================
 import conf
+import csv
 import time
 import datetime as dt
 import json
@@ -99,7 +100,41 @@ class WhatsApp:
         except Exception:
             return False
 
+    # This method will send dynamic messages to all contacts in a csv file based on template
+
+    def send_messages_in_batch(self, csv_file_path, template):
+        # The csv file must have a header , see below example (line 1 is header)
+        # the csv file must have a NAME coloumn
+        """
+        NAME,variable1,variable2,age,marks
+        Aahnik,xyz,123,17,100
+        """
+
+        # the template must be a string
+        # the variables inside a template must be prefixed with  dollar sign
+        # Example of a Template:
+        """
+        Hi ! $NAME your age is $age and your score is $marks
+        the value of variable1 is $variable1
+        the value of variable2 is $variable2
+
+        """
+        with open(csv_file_path, 'r') as file:
+            headers = file.readline().split(',')
+            headers[len(headers) - 1] = headers[len(headers) - 1][:-1]
+        # i am opening the csv file two times above and below INTENTIONALLY, changing will cause error
+        with open(csv_file_path, 'r') as file:
+            data = csv.DictReader(file)
+            for row in data:
+                required_string = template
+                for header in headers:
+                    value = row[header]
+                    required_string = required_string.replace(
+                        f'${header}', value)
+                self.send_message(row['NAME'], required_string)
+
     # This method will count the no of participants for the group name provided
+
     def participants_count_for_group(self, group_name):
         search = self.browser.find_element_by_css_selector("._3FRCZ")
         # we will send the name to the input key box
@@ -127,7 +162,7 @@ class WhatsApp:
                     participants_selector).text
                 if "participants" in participants_count:
                     return participants_count
-            except Exception as e:
+            except Exception:
                 pass
             new_time = dt.datetime.now()
             elapsed_time = (new_time - current_time).seconds
@@ -172,7 +207,7 @@ class WhatsApp:
                         if i.text not in participants:
                             participants.append(i.text)
                             print(i.text)
-                except Exception as e:
+                except Exception:
                     pass
             elements = self.browser.find_elements_by_tag_name("div")
             for element in elements:

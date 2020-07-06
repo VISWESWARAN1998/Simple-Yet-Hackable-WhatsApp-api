@@ -7,13 +7,24 @@
 
 ```python
 from whatsapp import WhatsApp
-whatsapp = WhatsApp(10)
-recipient = 'personInYourContacts'
-msg = """Hi  """
-print(whatsapp.send_message(recipient,msg)  
+msg = """	*laughing*  :-) 
+	neutral_face :-| _stuck_out_tongue_  :-p
+	~heart~  <3  simple_smile :-) 
+	*worried* :-( (n) 
+	thumbsup: (y) wink: ; - ) """
+wapp = WhatsApp(100)
+wapp.send_message('Name', msg)
+
 ```
 **Result:** <br>
-![Image](https://raw.githubusercontent.com/VISWESWARAN1998/Simple-Yet-Hackable-WhatsApp-api/master/Screenshot%20(747).png)
+![Image of Result](ScreenShots/emojiDemo.png)
+
+
+**Sending Customized Messages in Bulk ie Dynamic Batch Messaging :**
+
+
+
+
 
 **Running from an existing session:**
 It it very difficult for us to scan the QR code for logging in everytime if the session is not saved, you can avoid it by adding the session parameter like this,
