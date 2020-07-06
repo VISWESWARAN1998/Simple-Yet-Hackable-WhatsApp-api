@@ -24,8 +24,9 @@ wapp.send_message('Name', msg)
 ## **Sending Customized Messages in Bulk ie Dynamic Batch Messaging :**
 
 ### **Suppose you have a csv file like this**
-The csv file must have a header , see below example (line 1 is header)
-The csv file must have a NAME coloumn
+**The csv file must have a header , see below example (line 1 is header)
+The csv file must have a NAME coloumn**
+(the name which is saved in your phone)
 ![csv file image](ScreenShots/csvfile.png)
 
 ### **And you also have a template string (prefix variables with dollar sign)**
@@ -43,6 +44,7 @@ Your Detailed Report :
 :-) Keep Studying (y)
 """  # prefix the variables with a dollar sign
 wapp.send_messages_in_batch('students.csv', temp)
+# the function send_messages_in_batch takes two arguments csv file path and template
 ```
 **Result:**
 
