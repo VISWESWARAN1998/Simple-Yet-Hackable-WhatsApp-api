@@ -117,7 +117,7 @@ class WhatsApp:
                 "Your request has been timed out! Try overriding timeout!")
         except NoSuchElementException:
             return "None"
-        except Exception as e:
+        except Exception:
             return "None"
         current_time = dt.datetime.now()
         participants_selector = "div._2LSbZ:nth-child(5) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > span:nth-child(1)"
