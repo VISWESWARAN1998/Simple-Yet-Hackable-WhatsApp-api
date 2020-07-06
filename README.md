@@ -14,9 +14,9 @@ See other Requirements in `requirements.txt`
 ```python
 from whatsapp import WhatsApp
 msg = """	*laughing*  :-) 
-	neutral_face :-| _stuck_out_tongue_  :-p
+	neutral face :-|  :-p
 	~heart~  <3  simple_smile :-) 
-	*worried* :-( (n) 
+	:-( (n) 
 	thumbsup: (y) wink: ; - ) """
 wapp = WhatsApp(100)
 wapp.send_message('Name', msg)
