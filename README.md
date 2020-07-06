@@ -7,9 +7,9 @@
 
 See other Requirements in `requirements.txt`
 
-# **Using This API you can achieve many things in less than 5 lines of code**
+# Using This API you can achieve many things in less than 5 lines of code
 
-## **Sending a formatted message with emojis **
+## Sending a formatted message with emojis 
 
 ```python
 from whatsapp import WhatsApp
@@ -27,7 +27,7 @@ wapp.send_message('Name', msg)
 ![Image of Result](ScreenShots/emojiDemo.png)
 
 
-## **Sending Customized Messages in Bulk ie Dynamic Batch Messaging **
+## Sending Customized Messages in Bulk ie Dynamic Batch Messaging 
 
 ### Suppose you have a csv file like this
 **The csv file must have a header , see below example (line 1 is header)
