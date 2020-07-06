@@ -30,9 +30,9 @@ wapp.send_message('Name', msg)
 ## Sending Customized Messages in Bulk ie Dynamic Batch Messaging 
 
 ### Suppose you have a csv file like this
-(You can export CSV from MS Excel, LibreOffice and Google Sheets)
-**The csv file must have a header , see below example (line 1 is header)
-The csv file must have a NAME coloumn**
+**(You can export CSV from MS Excel, LibreOffice and Google Sheets)**
+The csv file must have a header , see below example (line 1 is header)
+The csv file must have a NAME coloumn
 (the name which is saved in your phone)
 
 ![csv file image](ScreenShots/csvfile.png)
