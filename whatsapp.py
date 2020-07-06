@@ -225,7 +225,7 @@ class WhatsApp:
                                 if j not in participants:
                                     participants.append(j)
                                     print(j)
-                except Exception as e:
+                except Exception:
                     pass
         return participants
 
