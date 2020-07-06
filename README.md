@@ -1,7 +1,7 @@
 # Simple-Yet-Hackable-WhatsApp-api
 ![HitCount](http://hits.dwyl.io/VISWESWARAN1998/SimpleYetHackableWhatsAppAPI.svg)
 
-### You must have latest version of Chrome Driver for your operating System [click here to install](https://chromedriver.chromium.org/downloads)
+### You must have latest version of Chrome Driver for your operating System [download](https://chromedriver.chromium.org/downloads)
 
 **Go to the `conf.py` file and set the value of  `CHROME_DRIVER_PATH`  to the path of installation of Chrome Driver in your system**
 
