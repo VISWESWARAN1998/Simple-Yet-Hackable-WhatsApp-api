@@ -16,7 +16,7 @@ from whatsapp import WhatsApp
 msg = """*laughing*  :-) 
 	neutral face :-| _stuck_out_tounge_ :-p
 	~heart~  <3  simple_smile :-) 
-	:-( (n) 
+	*worried* :-( (n) 
 	thumbsup: (y) wink: ; - ) """
 wapp = WhatsApp(100)
 wapp.send_message('Name', msg)
