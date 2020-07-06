@@ -101,7 +101,7 @@ class WhatsApp:
             return False
 
     # This method will send dynamic messages to all contacts in a csv file based on template
-
+    # FEATURE ENHANCEMENT AAHNIK 2020
     def send_messages_in_batch(self, csv_file_path, template):
         # The csv file must have a header , see below example (line 1 is header)
         # the csv file must have a NAME coloumn
