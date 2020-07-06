@@ -13,8 +13,8 @@ See other Requirements in `requirements.txt`
 
 ```python
 from whatsapp import WhatsApp
-msg = """	*laughing*  :-) 
-	neutral face :-|  :-p
+msg = """*laughing*  :-) 
+	neutral face :-| _stuck_out_tounge_ :-p
 	~heart~  <3  simple_smile :-) 
 	:-( (n) 
 	thumbsup: (y) wink: ; - ) """
@@ -30,6 +30,7 @@ wapp.send_message('Name', msg)
 ## Sending Customized Messages in Bulk ie Dynamic Batch Messaging 
 
 ### Suppose you have a csv file like this
+(You can export CSV from MS Excel, LibreOffice and Google Sheets)
 **The csv file must have a header , see below example (line 1 is header)
 The csv file must have a NAME coloumn**
 (the name which is saved in your phone)
