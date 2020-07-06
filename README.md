@@ -30,14 +30,17 @@ wapp.send_message('Name', msg)
 ## Sending Customized Messages in Bulk ie Dynamic Batch Messaging 
 
 ### Suppose you have a csv file like this
+
+![csv file image](ScreenShots/csvfile.png)
+
 **(You can export CSV from MS Excel, LibreOffice and Google Sheets)**
 The csv file must have a header , see below example (line 1 is header)
 The csv file must have a NAME coloumn
 (the name which is saved in your phone)
 
-![csv file image](ScreenShots/csvfile.png)
 
-### And you also have a template string (prefix variables with dollar sign)
+
+### And you also have some template string (prefix variables with dollar sign)
 ```python
 from whatsapp import WhatsApp
 wapp = WhatsApp(100)
