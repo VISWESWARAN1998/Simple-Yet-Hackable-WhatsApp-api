@@ -73,9 +73,9 @@ class WhatsApp:
         search.send_keys(name+Keys.ENTER)
         # Aahnik 2020 Solving Issue #48 raised by me @aahnik
         try:
-            person = WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located(
+            WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located(
                 (By.XPATH, f'//*[@id="main"]/header/div[2]/div/div/span[contains(@title,"{name}")]')))
-            print(person)  # comment out this line if not required
+
             # checking whether new person is loaded or not
         except Exception:
             print(f"""{name} not loaded, MAY BE NOT IN YOUR CONTACTS , or your request has been TIMED OUT !!
