@@ -43,7 +43,7 @@ wapp.send_messages_in_batch('students.csv', temp)
 ```
 **Result:**
 
-![image](ScreenShots/Dynamic Bulk Messaging From csv.png)
+![image](ScreenShots/DynamicBulkMessagingFromcsv.png)
 
 
 
