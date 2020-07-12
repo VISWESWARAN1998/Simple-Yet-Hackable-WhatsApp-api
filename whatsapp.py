@@ -63,11 +63,7 @@ class WhatsApp:
             # This will save the screenshot to the specified file location
             self.browser.save_screenshot(screenshot)
 
-    # This method is used to send the message to the individual person or a group
-    # will return true if the message has been sent, false else
-    def send_message(self, name, message):
-        # this will emojify all the emoji which is present as the text in string
-
+    def select_person(self, name):  # selecting a person after searching contacts
         search = self.browser.find_element_by_css_selector("._3FRCZ")
         # we will send the name to the input key box
         search.send_keys(name+Keys.ENTER)
@@ -75,6 +71,7 @@ class WhatsApp:
         try:
             WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located(
                 (By.XPATH, f'//*[@id="main"]/header/div[2]/div/div/span[contains(@title,"{name}")]')))
+            return True
 
             # checking whether new person is loaded or not
         except Exception:
@@ -82,6 +79,15 @@ class WhatsApp:
             If you are sure {name} is in your contacts, Try checking internet conection or Try overriding Timeout! """)
             search.send_keys((Keys.BACKSPACE)*len(name))
             # clearing the search bar by backspace, so that searching the next person doesnt have any issue
+            return False
+
+    # This method is used to send the message to the individual person or a group
+    # will return true if the message has been sent, false else
+
+    def send_message(self, name, message):
+        # true if success , false if not able to find person
+        selected = self.select_person()
+        if not selected:
             return False
         try:
             send_msg = WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located(
@@ -327,9 +333,10 @@ class WhatsApp:
 
     # This method will send you the picture
     def send_picture(self, name, picture_location, caption=None):
-        search = self.browser.find_element_by_css_selector("._3FRCZ")
-        # we will send the name to the input key box
-        search.send_keys(name+Keys.ENTER)
+        selected = self.select_person()
+        if not selected:
+            return False
+        
         try:
             attach_xpath = '//*[@id="main"]/header/div[3]/div/div[2]/div'
             send_file_xpath = '/html/body/div[1]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/span/div/div/span'
@@ -360,9 +367,9 @@ class WhatsApp:
 
     # For sending documents
     def send_document(self, name, document_location):
-        search = self.browser.find_element_by_css_selector("._3FRCZ")
-        # we will send the name to the input key box
-        search.send_keys(name+Keys.ENTER)
+        selected = self.select_person()
+        if not selected:
+            return False
         try:
             attach_xpath = '//*[@id="main"]/header/div[3]/div/div[2]/div'
             send_file_xpath = '/html/body/div[1]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/span/div/div/span'
