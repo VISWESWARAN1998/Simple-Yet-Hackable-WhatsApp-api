@@ -86,7 +86,7 @@ class WhatsApp:
 
     def send_message(self, name, message):
         # true if success , false if not able to find person
-        selected = self.select_person()
+        selected = self.select_person(name)
         if not selected:
             return False
         try:
@@ -333,7 +333,7 @@ class WhatsApp:
 
     # This method will send you the picture
     def send_picture(self, name, picture_location, caption=None):
-        selected = self.select_person()
+        selected = self.select_person(name)
         if not selected:
             return False
 
@@ -367,7 +367,7 @@ class WhatsApp:
 
     # For sending documents
     def send_document(self, name, document_location):
-        selected = self.select_person()
+        selected = self.select_person(name)
         if not selected:
             return False
         try:
