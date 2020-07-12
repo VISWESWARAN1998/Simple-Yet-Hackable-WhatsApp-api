@@ -59,25 +59,15 @@ class WhatsApp:
             (By.CSS_SELECTOR, '._3FRCZ')))
         if screenshot is not None:
             self.browser.save_screenshot(screenshot)  # This will save the screenshot to the specified file location
+        # CSS SELECTORS AND XPATHS
+        self.search_selector = ".cBxw- > div:nth-child(2)"
 
     # This method is used to send the message to the individual person or a group
     # will return true if the message has been sent, false else
     def send_message(self, name, message):
         message = self.emojify(message)  # this will emojify all the emoji which is present as the text in string
-        search = self.browser.find_element_by_css_selector("._3FRCZ")
+        search = self.browser.find_element_by_css_selector(self.search_selector)
         search.send_keys(name+Keys.ENTER)  # we will send the name to the input key box
-        # Aahnik 2020 Solving Issue #48 raised by me @aahnik
-        try:
-            person = WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located(
-                (By.XPATH, f'//*[@id="main"]/header/div[2]/div/div/span[contains(@title,"{name}")]')))
-            print(person) # comment out this line if not required
-            # checking whether new person is loaded or not
-        except Exception:
-            print(f"""{name} not loaded, MAY BE NOT IN YOUR CONTACTS , or your request has been TIMED OUT !!
-            If you are sure {name} is in your contacts, Try checking internet conection or Try overriding Timeout! """)
-            search.send_keys((Keys.BACKSPACE)*len(name))
-            # clearing the search bar by backspace, so that searching the next person doesnt have any issue
-            return False
         try:
             send_msg = WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located(
                 (By.XPATH, "/html/body/div/div/div/div[4]/div/footer/div[1]/div[2]/div/div[2]")))
@@ -96,7 +86,7 @@ class WhatsApp:
 
     # This method will count the no of participants for the group name provided
     def participants_count_for_group(self, group_name):
-        search = self.browser.find_element_by_css_selector("._3FRCZ")
+        search = self.browser.find_element_by_css_selector(self.search_selector)
         search.send_keys(group_name+Keys.ENTER)  # we will send the name to the input key box
         # some say this two try catch below can be grouped into one
         # but I have some version specific issues with chrome [Other element would receive a click]
@@ -129,7 +119,7 @@ class WhatsApp:
     # This method is used to get all the participants
     def get_group_participants(self, group_name):
         self.participants_count_for_group(group_name)
-        search = self.browser.find_element_by_css_selector("._3FRCZ")
+        search = self.browser.find_element_by_css_selector(self.search_selector)
         search.send_keys(group_name+Keys.ENTER)  # we will send the name to the input key box
         # some say this two try catch below can be grouped into one
         # but I have some version specific issues with chrome [Other element would receive a click]
@@ -197,7 +187,7 @@ class WhatsApp:
     # get the status message of a person
     # TimeOut is approximately set to 10 seconds
     def get_status(self, name):
-        search = self.browser.find_element_by_css_selector("._3FRCZ")
+        search = self.browser.find_element_by_css_selector(self.search_selector)
         search.send_keys(name+Keys.ENTER)  # we will send the name to the input key box
         try:
             group_xpath = "/html/body/div/div/div/div[3]/header/div[1]/div/span/img"
@@ -231,7 +221,7 @@ class WhatsApp:
 
     # to get the last seen of the person
     def get_last_seen(self, name, timeout=10):
-        search = self.browser.find_element_by_css_selector("._3FRCZ")
+        search = self.browser.find_element_by_css_selector(self.search_selector)
         search.send_keys(name+Keys.ENTER)  # we will send the name to the input key box
         last_seen_css_selector = "._315-i"
         start_time = dt.datetime.now()
@@ -274,7 +264,7 @@ class WhatsApp:
 
     # This method will send you the picture
     def send_picture(self, name, picture_location, caption=None):
-        search = self.browser.find_element_by_css_selector("._3FRCZ")
+        search = self.browser.find_element_by_css_selector(self.search_selector)
         search.send_keys(name+Keys.ENTER)  # we will send the name to the input key box
         try:
             attach_xpath = '//*[@id="main"]/header/div[3]/div/div[2]/div'
@@ -303,7 +293,7 @@ class WhatsApp:
 
     # For sending documents
     def send_document(self, name, document_location):
-        search = self.browser.find_element_by_css_selector("._3FRCZ")
+        search = self.browser.find_element_by_css_selector(self.search_selector)
         search.send_keys(name+Keys.ENTER)  # we will send the name to the input key box
         try:
             attach_xpath = '//*[@id="main"]/header/div[3]/div/div[2]/div'
@@ -359,7 +349,7 @@ class WhatsApp:
         return message
 
     def get_profile_pic(self, name):
-        search = self.browser.find_element_by_css_selector("._3FRCZ")
+        search = self.browser.find_element_by_css_selector(self.search_selector)
         search.send_keys(name+Keys.ENTER)
         try:
             open_profile = WebDriverWait(self.browser,self.timeout).until(EC.presence_of_element_located(
@@ -398,7 +388,7 @@ class WhatsApp:
         group_text.send_keys(group_name+Keys.ENTER)
 
     def set_group_picture(self, group_name, picture_location):
-        search = self.browser.find_element_by_css_selector("._3FRCZ")
+        search = self.browser.find_element_by_css_selector(self.search_selector)
         search.send_keys(group_name+Keys.ENTER)  # we will send the group name to the input key box
         try:
             menu_xpath = '/html/body/div[1]/div/div/div[4]/div/header/div[3]/div/div[3]/div/span'
@@ -467,7 +457,7 @@ class WhatsApp:
 
     # This method is used to exit a group
     def exit_group(self, group_name):
-        search = self.browser.find_element_by_css_selector("._3FRCZ")
+        search = self.browser.find_element_by_css_selector(self.search_selector)
         search.send_keys(group_name+Keys.ENTER)
         self.browser.find_element_by_css_selector("._2zCDG > span:nth-child(1)").click()
         WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located((By.CSS_SELECTOR, "div._1CRb5:nth-child(6) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > span:nth-child(1)")))
@@ -496,7 +486,7 @@ class WhatsApp:
 
     # Check if the message is present in an user chat
     def is_message_present(self, username, message):
-        search = self.browser.find_element_by_css_selector("._3FRCZ")
+        search = self.browser.find_element_by_css_selector(self.search_selector)
         search.send_keys(username+Keys.ENTER)
         search_bar = WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located((By.CSS_SELECTOR, "._1i0-u > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > span:nth-child(1)")))
         search_bar.click()
@@ -568,7 +558,7 @@ class WhatsApp:
     # Get last messages
     def get_last_message_for(self, name):
         messages = list()
-        search = self.browser.find_element_by_css_selector("._3FRCZ")
+        search = self.browser.find_element_by_css_selector(self.search_selector)
         search.send_keys(name+Keys.ENTER)
         time.sleep(3)
         soup = BeautifulSoup(self.browser.page_source, "html.parser")
