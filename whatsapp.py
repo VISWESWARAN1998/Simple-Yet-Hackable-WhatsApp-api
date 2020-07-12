@@ -31,9 +31,9 @@ try:
 except ModuleNotFoundError:
     print("Beautiful Soup Library is reqired to make this library work(For getting participants list for the specified group).\npip3 install beautifulsoup4")
 
-#import pyautogui
+# import pyautogui
 
-#pyautogui.PAUSE = 1
+# pyautogui.PAUSE = 1
 
 
 class WhatsApp:
@@ -336,7 +336,7 @@ class WhatsApp:
         selected = self.select_person()
         if not selected:
             return False
-        
+
         try:
             attach_xpath = '//*[@id="main"]/header/div[3]/div/div[2]/div'
             send_file_xpath = '/html/body/div[1]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/span/div/div/span'
@@ -386,8 +386,8 @@ class WhatsApp:
             # TODO - might need to click on transportation mode if url doesn't work
             # get current script path + img_path
             attach_img_btn.send_keys(document_location)
-            time.sleep(1)
-            send_btn = self.browser.find_element_by_xpath(send_file_xpath)
+            send_btn = WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located(
+                (By.XPATH, send_file_xpath)))
             send_btn.click()
 
         except (NoSuchElementException, ElementNotVisibleException) as e:
