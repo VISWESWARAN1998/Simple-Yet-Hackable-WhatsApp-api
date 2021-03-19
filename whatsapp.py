@@ -28,7 +28,7 @@ from urllib.parse import urlencode
 try:
     from bs4 import BeautifulSoup
 except ModuleNotFoundError:
-    print("Beautiful Soup Library is reqired to make this library work(For getting participants list for the specified group).\npip3 install beautifulsoup4")
+    print("Beautiful Soup Library is required to make this library work(For getting participants list for the specified group).\npip3 install beautifulsoup4")
 
 
 class WhatsAppElements:
