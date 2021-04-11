@@ -33,7 +33,7 @@ except ModuleNotFoundError:
 
 class WhatsAppElements:
 
-    search = (By.CSS_SELECTOR, "._1awRl")
+    search = (By.CSS_SELECTOR, "#side > div.SgIJV > div > label > div > div._2_1wd.copyable-text.selectable-text")
     attach_icon = (By.CSS_SELECTOR, ".bDS3i > div:nth-child(1) > div:nth-child(1) > span:nth-child(1)")
 
 
