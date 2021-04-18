@@ -1,5 +1,16 @@
 # Simple-Yet-Hackable-WhatsApp-api
-![HitCount](http://hits.dwyl.io/VISWESWARAN1998/SimpleYetHackableWhatsAppAPI.svg)
+
+![visitors](https://visitor-badge.glitch.me/badge?page_id=simplehackablewhatsapp)
+
+## Installation 
+
+To use this api in your project, you can download `whatsapp.py` and `emoji.json` from this repository, and keep it in the same folder/subfolder of your project. Create a new .py file for your project and import this api with
+```python
+from whatsapp import Whatsapp
+```
+For this api to work, it requires selenium, requests, pillow and bs4 modules. Please copy the reqirements.txt of this project into your project's requirements.txt so it can work seamlessly with your project.
+
+## Usage
 
 **Using This API you can achieve many things in less than 5 lines of code**
 
