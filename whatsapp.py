@@ -33,8 +33,9 @@ except ModuleNotFoundError:
 
 class WhatsAppElements:
 
-    search = (By.CSS_SELECTOR, "#side > div.SgIJV > div > label > div > div._2_1wd.copyable-text.selectable-text")
+    search = (By.CSS_SELECTOR, "#side .copyable-text.selectable-text")
     attach_icon = (By.CSS_SELECTOR, ".bDS3i > div:nth-child(1) > div:nth-child(1) > span:nth-child(1)")
+    conversation_input = (By.XPATH, "//div[@data-testid='conversation-compose-box-input']")
 
 
 class WhatsApp:
@@ -47,18 +48,28 @@ class WhatsApp:
 
     # This constructor will load all the emojies present in the json file and it will initialize the webdriver
     def __init__(self, wait, screenshot=None, session=None):
+
+        # @todo find a way to choose webdriver, like geckodriver (firefox)
         chrome_options = Options()
         if session:
             chrome_options.add_argument("--user-data-dir={}".format(session))
             self.browser = webdriver.Chrome(options=chrome_options)  # we are using chrome as our webbrowser
         else:
             self.browser = webdriver.Chrome()
+        
+        # @todo find a way to retrieve crashed/openned webdriver
+        # self.browser = webdriver.Remote(command_executor="http://127.0.0.1:54121") 
+        # self.browser.session_id = "ebba950bd83db6275c039ed29ff4bc1c"
+        # print(f'driver.command_executor._url: {self.browser.command_executor._url}')
+        # print(f'driver.session_id: {self.browser.session_id}')
+
         self.browser.get("https://web.whatsapp.com/")
         # emoji.json is a json file which contains all the emojis
         with open("emoji.json") as emojies:
             self.emoji = json.load(emojies)  # This will load the emojies present in the json file into the dict
-        WebDriverWait(self.browser,wait).until(EC.presence_of_element_located(
-            WhatsAppElements.search))
+        
+        WebDriverWait(self.browser,wait).until(EC.presence_of_element_located(WhatsAppElements.search))
+
         if screenshot is not None:
             self.browser.save_screenshot(screenshot)  # This will save the screenshot to the specified file location
 
@@ -69,8 +80,7 @@ class WhatsApp:
         search = self.browser.find_element(*WhatsAppElements.search)
         search.send_keys(name+Keys.ENTER)  # we will send the name to the input key box
         try:
-            send_msg = WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located(
-                (By.XPATH, "/html/body/div/div/div/div[4]/div/footer/div[1]/div[2]/div/div[2]")))
+            send_msg = WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located(WhatsAppElements.conversation_input))
             messages = message.split("\n")
             for msg in messages:
                 send_msg.send_keys(msg)
@@ -544,9 +554,9 @@ class WhatsApp:
         for i in range(0, scrolls):
             self.browser.execute_script("document.getElementById('pane-side').scrollTop={}".format(initial))
             soup = BeautifulSoup(self.browser.page_source, "html.parser")
-            for i in soup.find_all("div", class_="_2EXPL CxUIE"):
-                if i.find("div", class_="_2FBdJ"):
-                    username = i.find("div", class_="_25Ooe").text
+            for i in soup.select('div[data-testid*=list-item]'):
+                if i.find(attrs={"data-testid":"icon-unread-count"}):
+                    username = i.find(attrs={"data-testid":"cell-frame-title"}).text
                     usernames.append(username)
             initial += 10
         # Remove duplicates
